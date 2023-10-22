@@ -1,5 +1,6 @@
 package sptech.safemoney.controle;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import sptech.safemoney.dto.UsuarioLoginDTO;
 import sptech.safemoney.dto.UsuarioTokenDTO;
 import sptech.safemoney.repositorio.UsuarioRepository;
 
+@Tag(name = "Autenticacao Controller", description = "Login do usuário com requisição do Token JWT")
 @RestController
 @RequestMapping("/autenticacao")
 public class AutenticacaoController {
