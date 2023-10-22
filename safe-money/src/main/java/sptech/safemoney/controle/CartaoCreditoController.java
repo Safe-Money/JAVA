@@ -1,17 +1,17 @@
 package sptech.safemoney.controle;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sptech.safemoney.dominio.CartaoCredito;
-import sptech.safemoney.dominio.Usuario;
 import sptech.safemoney.repositorio.CartaoCreditoRepository;
-import sptech.safemoney.repositorio.UsuarioRepository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Tag(name = "CartãoCredito Controller", description = "CRUD de cartões")
 @RestController
 @RequestMapping("/cartaoCredito")
 public class CartaoCreditoController {
@@ -28,11 +28,6 @@ public class CartaoCreditoController {
                 : ResponseEntity.status(200).body(listaUsuarios);
     }
 
-
-
-
-
-
     @GetMapping("/{id}")
     public ResponseEntity<CartaoCredito> getUser(@PathVariable int id) {
         Optional<CartaoCredito> usuario = repository.findById(id);
@@ -41,7 +36,6 @@ public class CartaoCreditoController {
                 ? ResponseEntity.status(200).body(usuario.get())
                 : ResponseEntity.status(204).build();
     }
-
 
     @PostMapping("/")
     public ResponseEntity<CartaoCredito> post(@RequestBody @Valid CartaoCredito novoCartao) {
@@ -62,8 +56,6 @@ public class CartaoCreditoController {
         return ResponseEntity.status(404).build();
     }
 
-
-
     @PutMapping("/{id}")
     public ResponseEntity<CartaoCredito> put(@RequestBody @Valid CartaoCredito usuarioAtualizado, @PathVariable int id) {
         if (repository.existsById(id)) {
@@ -73,5 +65,4 @@ public class CartaoCreditoController {
         }
         return ResponseEntity.status(404).build();
     }
-
 }

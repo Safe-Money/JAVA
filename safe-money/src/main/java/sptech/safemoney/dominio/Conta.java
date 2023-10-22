@@ -14,9 +14,6 @@ public class Conta {
     private int id;
 
     @NotBlank
-    private String nome;
-
-    @NotBlank
     private String banco;
 
     @PositiveOrZero
@@ -25,17 +22,10 @@ public class Conta {
     @PositiveOrZero
     private Integer tipo;
 
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
     @ManyToOne
-    private Usuario usuario;
+    @JoinColumn(name = "fkUsuario")
+    private UsuarioEntity usuario;
+
 
     public int getId() {
         return id;
@@ -43,14 +33,6 @@ public class Conta {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public String getBanco() {
@@ -67,5 +49,21 @@ public class Conta {
 
     public void setSaldo(Double saldo) {
         this.saldo = saldo;
+    }
+
+    public Integer getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(Integer tipo) {
+        this.tipo = tipo;
+    }
+
+    public UsuarioEntity getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioEntity usuario) {
+        this.usuario = usuario;
     }
 }

@@ -54,7 +54,7 @@ public class AutenticacaoController {
 
         UsuarioTokenDTO usuarioTokenDto = new UsuarioTokenDTO();
 
-        usuarioTokenDto.setUserId(usuarioAutenticado.getId());
+        usuarioTokenDto.setId(usuarioAutenticado.getId());
         usuarioTokenDto.setEmail(usuarioAutenticado.getEmail());
         usuarioTokenDto.setNome(usuarioAutenticado.getNome());
         usuarioTokenDto.setToken(token);

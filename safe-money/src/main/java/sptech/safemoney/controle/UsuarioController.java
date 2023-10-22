@@ -25,7 +25,6 @@ public class UsuarioController {
     @Autowired
     UsuarioRepository repository;
 
-
     @Operation(summary = "Busca e Lista todos os usuários salvos", method = "GET")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Usuários encontrados"),
@@ -40,13 +39,6 @@ public class UsuarioController {
                 : ResponseEntity.status(200).body(listaUsuarios);
     }
 
-
-
-
-
-
-
-
     @Operation(summary = "Busca e lista um usuário específico pelo ID", method = "GET")
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioEntity> getUser(@PathVariable int id) {
@@ -59,7 +51,7 @@ public class UsuarioController {
 
 
     @Operation(summary = "Cadastra um usuário", method = "GET")
-    @PostMapping("/")
+    @PostMapping("/cadastro")
     public ResponseEntity<UsuarioEntity> post(@RequestBody @Valid UsuarioCadastroDTO novoUsuario) {
         if (repository.existsByEmail(novoUsuario.getEmail())) {
             return ResponseEntity.status(409).build();

@@ -21,11 +21,11 @@ public class Planejamento {
     private LocalDate data;
 
     @ManyToOne
-    private Usuario usuario;
+    private UsuarioEntity usuario;
     @ManyToOne
     private Categoria categoria;
 
-    public Planejamento(Integer id, Double valorPlanejado, LocalDate data, Usuario usuario) {
+    public Planejamento(Integer id, Double valorPlanejado, LocalDate data, UsuarioEntity usuario) {
         this.id = id;
         this.valorPlanejado = valorPlanejado;
         this.data = data;
@@ -56,11 +56,19 @@ public class Planejamento {
         this.data = data;
     }
 
-    public Usuario getUsuario() {
+    public UsuarioEntity getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(Usuario usuario) {
+    public void setUsuario(UsuarioEntity usuario) {
         this.usuario = usuario;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 }

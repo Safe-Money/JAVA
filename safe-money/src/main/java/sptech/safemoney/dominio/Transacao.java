@@ -26,7 +26,6 @@ public class Transacao {
     private CartaoCredito cartaoCredito;
     @ManyToOne
     private Conta conta;
-
     @ManyToOne
     private Categoria categoria;
 

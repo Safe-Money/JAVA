@@ -1,18 +1,17 @@
 package sptech.safemoney.controle;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sptech.safemoney.dominio.Categoria;
 import sptech.safemoney.dominio.Conta;
-import sptech.safemoney.dominio.Usuario;
 import sptech.safemoney.repositorio.ContaRepository;
-import sptech.safemoney.repositorio.UsuarioRepository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Tag(name = "Conta Controller", description = "CRUD de contas")
 @RestController
 @RequestMapping("/contas")
 public class ContaController {

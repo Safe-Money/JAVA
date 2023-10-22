@@ -1,5 +1,6 @@
 package sptech.safemoney.controle;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import sptech.safemoney.repositorio.TransacaoRepository;
 import java.util.List;
 import java.util.Optional;
 
+@Tag(name = "Transacao Controller", description = "CRUD de transações")
 @RestController
 @RequestMapping("/transacao")
 public class TransacaoController {
