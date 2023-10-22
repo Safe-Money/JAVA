@@ -4,22 +4,24 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sptech.safemoney.dominio.Categoria;
 import sptech.safemoney.dominio.Usuario;
+import sptech.safemoney.repositorio.CategoriaRepository;
 import sptech.safemoney.repositorio.UsuarioRepository;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/usuarios")
-public class UsuarioController {
+@RequestMapping("/categoria")
+public class CategoriaController {
 
     @Autowired
-    UsuarioRepository repository;
+    CategoriaRepository repository;
 
     @GetMapping("/")
-    public ResponseEntity<List<Usuario>> getAllUsers() {
-        List<Usuario> listaUsuarios = repository.findAll();
+    public ResponseEntity<List<Categoria>> getAllUsers() {
+        List<Categoria> listaUsuarios = repository.findAll();
 
         return listaUsuarios.isEmpty()
                 ? ResponseEntity.status(204).build()
@@ -38,8 +40,8 @@ public class UsuarioController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> getUser(@PathVariable int id) {
-        Optional<Usuario> usuario = repository.findById(id);
+    public ResponseEntity<Categoria> getUser(@PathVariable int id) {
+        Optional<Categoria> usuario = repository.findById(id);
 
         return usuario.isPresent()
                 ? ResponseEntity.status(200).body(usuario.get())
@@ -48,8 +50,8 @@ public class UsuarioController {
 
 
     @PostMapping("/")
-    public ResponseEntity<Usuario> post(@RequestBody @Valid Usuario novoUsuario) {
-        if (repository.existsByEmail(novoUsuario.getEmail())) {
+    public ResponseEntity<Categoria> post(@RequestBody @Valid Categoria novoUsuario) {
+        if (repository.existsById(novoUsuario.getId())) {
             return ResponseEntity.status(409).build();
         }
 
@@ -69,7 +71,7 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Usuario> put(@RequestBody @Valid Usuario usuarioAtualizado, @PathVariable int id) {
+    public ResponseEntity<Categoria> put(@RequestBody @Valid Categoria usuarioAtualizado, @PathVariable int id) {
         if (repository.existsById(id)) {
             usuarioAtualizado.setId(id);
             repository.save(usuarioAtualizado);

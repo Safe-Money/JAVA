@@ -2,6 +2,7 @@ package sptech.safemoney.dominio;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Past;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDate;
@@ -19,8 +20,12 @@ public class Usuario {
     private String email;
     @NotBlank
     private String senha;
-
+    @Past
     private LocalDate dtNascimento;
+
+
+
+
 
     public int getId() {
         return id;

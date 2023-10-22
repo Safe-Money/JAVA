@@ -4,22 +4,24 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sptech.safemoney.dominio.CartaoCredito;
 import sptech.safemoney.dominio.Usuario;
+import sptech.safemoney.repositorio.CartaoCreditoRepository;
 import sptech.safemoney.repositorio.UsuarioRepository;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/usuarios")
-public class UsuarioController {
+@RequestMapping("/cartaoCredito")
+public class CartaoCreditoController {
 
     @Autowired
-    UsuarioRepository repository;
+    CartaoCreditoRepository repository;
 
     @GetMapping("/")
-    public ResponseEntity<List<Usuario>> getAllUsers() {
-        List<Usuario> listaUsuarios = repository.findAll();
+    public ResponseEntity<List<CartaoCredito>> getAllUsers() {
+        List<CartaoCredito> listaUsuarios = repository.findAll();
 
         return listaUsuarios.isEmpty()
                 ? ResponseEntity.status(204).build()
@@ -31,15 +33,9 @@ public class UsuarioController {
 
 
 
-
-
-
-
-
-
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> getUser(@PathVariable int id) {
-        Optional<Usuario> usuario = repository.findById(id);
+    public ResponseEntity<CartaoCredito> getUser(@PathVariable int id) {
+        Optional<CartaoCredito> usuario = repository.findById(id);
 
         return usuario.isPresent()
                 ? ResponseEntity.status(200).body(usuario.get())
@@ -48,14 +44,12 @@ public class UsuarioController {
 
 
     @PostMapping("/")
-    public ResponseEntity<Usuario> post(@RequestBody @Valid Usuario novoUsuario) {
-        if (repository.existsByEmail(novoUsuario.getEmail())) {
+    public ResponseEntity<CartaoCredito> post(@RequestBody @Valid CartaoCredito novoCartao) {
+        if (repository.existsById(novoCartao.getId())) {
             return ResponseEntity.status(409).build();
         }
-
-        repository.save(novoUsuario);
-
-        return ResponseEntity.status(201).body(novoUsuario);
+        repository.save(novoCartao);
+        return ResponseEntity.status(201).body(novoCartao);
     }
 
     @DeleteMapping("/{id}")
@@ -68,8 +62,10 @@ public class UsuarioController {
         return ResponseEntity.status(404).build();
     }
 
+
+
     @PutMapping("/{id}")
-    public ResponseEntity<Usuario> put(@RequestBody @Valid Usuario usuarioAtualizado, @PathVariable int id) {
+    public ResponseEntity<CartaoCredito> put(@RequestBody @Valid CartaoCredito usuarioAtualizado, @PathVariable int id) {
         if (repository.existsById(id)) {
             usuarioAtualizado.setId(id);
             repository.save(usuarioAtualizado);
