@@ -1,12 +1,15 @@
 package sptech.safemoney.repositorio;
 
-import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import sptech.safemoney.dominio.Usuario;
+import sptech.safemoney.dominio.UsuarioEntity;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
+public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Integer> {
     boolean existsByEmail(String email);
+
+    Optional<UsuarioEntity> findByEmail(String email);
+
+    boolean existsByEmailAndSenha(String email, String senha);
 }
