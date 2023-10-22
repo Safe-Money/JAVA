@@ -30,9 +30,6 @@ public class ContaController {
     }
 
 
-
-
-
     @GetMapping("/{id}")
     public ResponseEntity<Conta> getUser(@PathVariable int id) {
         Optional<Conta> usuario = repository.findById(id);
@@ -41,7 +38,6 @@ public class ContaController {
                 ? ResponseEntity.status(200).body(usuario.get())
                 : ResponseEntity.status(204).build();
     }
-
 
 
     @PostMapping("/")
@@ -74,5 +70,6 @@ public class ContaController {
         }
         return ResponseEntity.status(404).build();
     }
-
 }
+
+
