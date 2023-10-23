@@ -9,9 +9,14 @@ import sptech.safemoney.dominio.Categoria;
 import sptech.safemoney.dominio.Transacao;
 import sptech.safemoney.repositorio.CategoriaRepository;
 import sptech.safemoney.repositorio.TransacaoRepository;
+import sptech.safemoney.utils.GerenciadorDeArquivo;
+import sptech.safemoney.utils.ListaObj;
+import sptech.safemoney.utils.OrdenacaoPesquisa;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.TreeSet;
 
 @Tag(name = "Transacao Controller", description = "CRUD de transações")
 @RestController
@@ -31,16 +36,6 @@ public class TransacaoController {
                 ? ResponseEntity.status(204).build()
                 : ResponseEntity.status(200).body(listaUsuarios);
     }
-
-
-
-
-
-
-
-
-
-
 
 
     @GetMapping("/{id}")
@@ -84,5 +79,46 @@ public class TransacaoController {
         }
         return ResponseEntity.status(404).build();
     }
+
+
+    @GetMapping("/exportar/{id}")
+    public ResponseEntity exportar(@PathVariable int id) {
+        List<Transacao> listaTransacoes = repository.findAllTransacoesByUserId(id);
+
+        ListaObj<Transacao> listaObj = new ListaObj<>(listaTransacoes.size());
+
+        for (int i = 0; i < listaTransacoes.size(); i++) {
+            listaObj.adiciona(listaTransacoes.get(i));
+        }
+
+        GerenciadorDeArquivo.gravaArquivoCsv(listaObj, "Lançamentos");
+
+        return ResponseEntity.status(200).build();
+    }
+
+    @GetMapping("/leCsv")
+    public ResponseEntity leCSV() {
+        GerenciadorDeArquivo.leArquivoCsv("Lançamentos");
+
+        return ResponseEntity.status(200).build();
+    }
+
+    @GetMapping("/pesquisaBinaria/{id}/{data}")
+    public ResponseEntity<Transacao> pesquisaBinaria(@PathVariable int id, @PathVariable LocalDate data) {
+        List<Transacao> listaTransacoes = repository.findAllTransacoesByUserId(id);
+        ListaObj<Transacao> listaObj = new ListaObj<>(listaTransacoes.size());
+
+        for (int i = 0; i < listaTransacoes.size(); i++) {
+            listaObj.adiciona(listaTransacoes.get(i));
+        }
+
+        OrdenacaoPesquisa.ordernacaoBubbleSort(listaObj);
+        int transacaoEncontrada = OrdenacaoPesquisa.pesquisaBinaria(listaObj, data);
+
+        return transacaoEncontrada == -1
+            ? ResponseEntity.status(404).build()
+            : ResponseEntity.ok(listaObj.getElemento(transacaoEncontrada));
+    }
+
 
 }

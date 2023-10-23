@@ -22,6 +22,8 @@ public class Transacao {
     private Double valor;
     @PositiveOrZero
     private Integer tipo;
+    @PositiveOrZero
+    private Double saldoApos;
     @ManyToOne
     private CartaoCredito cartaoCredito;
     @ManyToOne
@@ -110,5 +112,20 @@ public class Transacao {
 
     public void setConta(Conta conta) {
         this.conta = conta;
+    }
+
+    public Double getSaldoApos() {
+        return saldoApos;
+    }
+
+    public void setSaldoApos(Double saldoApos) {
+        this.saldoApos = saldoApos;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("""
+                Data: %s
+                """, data);
     }
 }
