@@ -34,9 +34,12 @@ public class GerenciadorDeArquivo {
 
                 //Recupere um elemento da lista e formate aqui:
                 Transacao transacao = lista.getElemento(i);
-                String tipoTransacao = "Gasto";
+
+                String tipoTransacao = "Despesa";
                 if (transacao.getTipo() == 1) {
-                    tipoTransacao = "Depósito";
+                    tipoTransacao = "Receita";
+                } else if (transacao.getTipo() == 2) {
+                    tipoTransacao = "Transfêrencia";
                 }
 
                 String tipoConta = "Conta-Corrente";

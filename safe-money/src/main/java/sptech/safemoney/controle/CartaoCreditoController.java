@@ -1,5 +1,6 @@
 package sptech.safemoney.controle;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ public class CartaoCreditoController {
     @Autowired
     CartaoCreditoRepository repository;
 
+    @Operation(summary = "Busca e Lista todos os cartões de crédito salvos", method = "GET")
     @GetMapping("/")
     public ResponseEntity<List<CartaoCredito>> getAllUsers() {
         List<CartaoCredito> listaUsuarios = repository.findAll();
@@ -28,6 +30,7 @@ public class CartaoCreditoController {
                 : ResponseEntity.status(200).body(listaUsuarios);
     }
 
+    @Operation(summary = "Busca e lista um cartão específico pelo ID", method = "GET")
     @GetMapping("/{id}")
     public ResponseEntity<CartaoCredito> getUser(@PathVariable int id) {
         Optional<CartaoCredito> usuario = repository.findById(id);
@@ -37,6 +40,7 @@ public class CartaoCreditoController {
                 : ResponseEntity.status(204).build();
     }
 
+    @Operation(summary = "Cadastra um novo cartão", method = "POST")
     @PostMapping("/")
     public ResponseEntity<CartaoCredito> post(@RequestBody @Valid CartaoCredito novoCartao) {
         if (repository.existsById(novoCartao.getId())) {
@@ -46,6 +50,7 @@ public class CartaoCreditoController {
         return ResponseEntity.status(201).body(novoCartao);
     }
 
+    @Operation(summary = "Deleta um novo cartão", method = "DELETE")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable int id) {
         if (repository.existsById(id)) {
@@ -56,6 +61,7 @@ public class CartaoCreditoController {
         return ResponseEntity.status(404).build();
     }
 
+    @Operation(summary = "Atualiza os dados de um cartão", method = "PUT")
     @PutMapping("/{id}")
     public ResponseEntity<CartaoCredito> put(@RequestBody @Valid CartaoCredito usuarioAtualizado, @PathVariable int id) {
         if (repository.existsById(id)) {

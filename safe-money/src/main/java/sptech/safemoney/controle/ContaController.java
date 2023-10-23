@@ -1,5 +1,6 @@
 package sptech.safemoney.controle;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ public class ContaController {
     @Autowired
     ContaRepository repository;
 
+    @Operation(summary = "Busca e Lista todos as contas salvas", method = "GET")
+
     @GetMapping("/")
     public ResponseEntity<List<Conta>> getContas() {
         List<Conta> listaContas = repository.findAll();
@@ -28,7 +31,7 @@ public class ContaController {
                 : ResponseEntity.status(200).body(listaContas);
     }
 
-
+    @Operation(summary = "Busca e lista uma conta específica pelo ID", method = "GET")
     @GetMapping("/{id}")
     public ResponseEntity<Conta> getUser(@PathVariable int id) {
         Optional<Conta> usuario = repository.findById(id);
@@ -38,7 +41,7 @@ public class ContaController {
                 : ResponseEntity.status(204).build();
     }
 
-
+    @Operation(summary = "Cadastra uma conta", method = "POST")
     @PostMapping("/")
     public ResponseEntity<Conta> post(@RequestBody @Valid Conta novaConta) {
         if (repository.existsById(novaConta.getId())) {
@@ -50,6 +53,7 @@ public class ContaController {
         return ResponseEntity.status(201).body(novaConta);
     }
 
+    @Operation(summary = "Deleta uma conta", method = "DELETE")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable int id) {
         if (repository.existsById(id)) {
@@ -60,6 +64,7 @@ public class ContaController {
         return ResponseEntity.status(404).build();
     }
 
+    @Operation(summary = "Atualiza os dados de um usuário", method = "PUT")
     @PutMapping("/{id}")
     public ResponseEntity<Conta> put(@RequestBody @Valid Conta contaAtualizada, @PathVariable int id) {
         if (repository.existsById(id)) {

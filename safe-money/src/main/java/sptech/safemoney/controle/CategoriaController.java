@@ -1,5 +1,6 @@
 package sptech.safemoney.controle;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ public class CategoriaController {
     @Autowired
     CategoriaRepository repository;
 
+    @Operation(summary = "Busca e Lista todas as categorias salvas", method = "GET")
     @GetMapping("/")
     public ResponseEntity<List<Categoria>> getAllUsers() {
         List<Categoria> listaUsuarios = repository.findAll();
@@ -27,6 +29,8 @@ public class CategoriaController {
                 ? ResponseEntity.status(204).build()
                 : ResponseEntity.status(200).body(listaUsuarios);
     }
+
+    @Operation(summary = "Busca e lista uma categoria específica pelo ID", method = "GET")
 
     @GetMapping("/{id}")
     public ResponseEntity<Categoria> getUser(@PathVariable int id) {
@@ -37,7 +41,7 @@ public class CategoriaController {
                 : ResponseEntity.status(204).build();
     }
 
-
+    @Operation(summary = "Cadastra uma categoria", method = "POST")
     @PostMapping("/")
     public ResponseEntity<Categoria> post(@RequestBody @Valid Categoria novoUsuario) {
         if (repository.existsById(novoUsuario.getId())) {
@@ -49,6 +53,7 @@ public class CategoriaController {
         return ResponseEntity.status(201).body(novoUsuario);
     }
 
+    @Operation(summary = "Deleta uma categoria", method = "DELETE")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable int id) {
         if (repository.existsById(id)) {
@@ -59,6 +64,7 @@ public class CategoriaController {
         return ResponseEntity.status(404).build();
     }
 
+    @Operation(summary = "Atualiza os dados de uma categoria", method = "PUT")
     @PutMapping("/{id}")
     public ResponseEntity<Categoria> put(@RequestBody @Valid Categoria usuarioAtualizado, @PathVariable int id) {
         if (repository.existsById(id)) {

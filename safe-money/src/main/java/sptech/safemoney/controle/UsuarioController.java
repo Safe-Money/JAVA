@@ -50,7 +50,7 @@ public class UsuarioController {
     }
 
 
-    @Operation(summary = "Cadastra um usuário", method = "GET")
+    @Operation(summary = "Cadastra um usuário", method = "POST")
     @PostMapping("/cadastro")
     public ResponseEntity<UsuarioEntity> post(@RequestBody @Valid UsuarioCadastroDTO novoUsuario) {
         if (repository.existsByEmail(novoUsuario.getEmail())) {
@@ -63,7 +63,7 @@ public class UsuarioController {
         return ResponseEntity.status(201).body(user);
     }
 
-    @Operation(summary = "Deleta um usuário", method = "GET")
+    @Operation(summary = "Deleta um usuário", method = "DELETE")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable int id) {
         if (repository.existsById(id)) {
@@ -74,7 +74,7 @@ public class UsuarioController {
         return ResponseEntity.status(404).build();
     }
 
-    @Operation(summary = "Atualiza os dados de um usuário", method = "GET")
+    @Operation(summary = "Atualiza os dados de um usuário", method = "PUT")
     @PutMapping("/{id}")
     public ResponseEntity<UsuarioEntity> put(@RequestBody @Valid UsuarioEntity usuarioAtualizado, @PathVariable int id) {
         if (repository.existsById(id)) {

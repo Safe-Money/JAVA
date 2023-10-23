@@ -1,5 +1,6 @@
 package sptech.safemoney.controle;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,7 @@ public class AutenticacaoController {
     @Autowired
     private GerenciadorTokenJwt gerenciadorTokenJwt;
 
+    @Operation(summary = "Autentica as credencias informadas e retorna um TOKEN JWT", method = "POST")
     @PostMapping("/login")
     public ResponseEntity<UsuarioTokenDTO> logarUsuario(@RequestBody @Valid UsuarioLoginDTO usuario) {
         final UsernamePasswordAuthenticationToken credentials = new UsernamePasswordAuthenticationToken(
