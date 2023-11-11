@@ -10,6 +10,7 @@ import sptech.safemoney.dominio.Categoria;
 import sptech.safemoney.dominio.Transacao;
 import sptech.safemoney.repositorio.CategoriaRepository;
 import sptech.safemoney.repositorio.TransacaoRepository;
+import sptech.safemoney.servico.TransacaoService;
 import sptech.safemoney.utils.GerenciadorDeArquivo;
 import sptech.safemoney.utils.ListaObj;
 import sptech.safemoney.utils.OrdenacaoPesquisa;
@@ -21,11 +22,14 @@ import java.util.TreeSet;
 
 @Tag(name = "Transacao Controller", description = "CRUD de transações")
 @RestController
-@RequestMapping("/transacao")
+@RequestMapping("/transacoes")
 public class TransacaoController {
 
     @Autowired
     TransacaoRepository repository;
+
+    @Autowired
+    TransacaoService service;
 
     @Operation(summary = "Busca e Lista todos as transações", method = "GET")
     @GetMapping("/")
@@ -50,14 +54,10 @@ public class TransacaoController {
 
     @Operation(summary = "Cadastra uma transação", method = "POST")
     @PostMapping("/")
-    public ResponseEntity<Transacao> post(@RequestBody @Valid Transacao novoUsuario) {
-        if (repository.existsById(novoUsuario.getId())) {
-            return ResponseEntity.status(409).build();
-        }
+    public ResponseEntity<Transacao> post(@RequestBody @Valid Transacao novaTransacao) {
+        service.verificarTransacao(novaTransacao);
 
-        repository.save(novoUsuario);
-
-        return ResponseEntity.status(201).body(novoUsuario);
+        return ResponseEntity.status(201).body(novaTransacao);
     }
 
     @Operation(summary = "Deleta uma transação", method = "DELETE")

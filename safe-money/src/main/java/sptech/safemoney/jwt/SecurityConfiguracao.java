@@ -57,6 +57,7 @@ public class SecurityConfiguracao {
             new AntPathRequestMatcher("/usuarios/cadastro")
             //Descomente esta linha caso queira desabilitar o JWT
             // new AntPathRequestMatcher("/**")
+
     };
 
     @Bean
