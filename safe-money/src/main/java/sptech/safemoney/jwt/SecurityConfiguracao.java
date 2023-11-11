@@ -54,8 +54,10 @@ public class SecurityConfiguracao {
             new AntPathRequestMatcher("/h2-console/**"),
             new AntPathRequestMatcher("/error/**"),
             new AntPathRequestMatcher("/autenticacao/login"),
-            new AntPathRequestMatcher("/usuarios/cadastro"),
-            new AntPathRequestMatcher("/**")
+            new AntPathRequestMatcher("/usuarios/cadastro")
+            //Descomente esta linha caso queira desabilitar o JWT
+            // new AntPathRequestMatcher("/**")
+
     };
 
     @Bean

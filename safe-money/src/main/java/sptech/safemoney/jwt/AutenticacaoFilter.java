@@ -18,9 +18,7 @@ import java.util.Objects;
 
 public class AutenticacaoFilter extends OncePerRequestFilter {
     private static final Logger LOGGER = LoggerFactory.getLogger(AutenticacaoFilter.class);
-
     private final AutenticacaoService autenticacaoService;
-
     private final GerenciadorTokenJwt jwtTokenManager;
 
     public AutenticacaoFilter(AutenticacaoService autenticacaoService, GerenciadorTokenJwt jwtTokenManager) {
