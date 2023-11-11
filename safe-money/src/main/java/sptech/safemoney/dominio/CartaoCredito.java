@@ -24,7 +24,7 @@ public class CartaoCredito {
     private LocalDate dataLancamento;
 
     @ManyToOne
-    private Conta conta;
+    private ContaEntity conta;
 
 
     public int getId() {
@@ -67,23 +67,10 @@ public class CartaoCredito {
         this.dataLancamento = dataLancamento;
     }
 
-    public Conta getConta() {
+    public ContaEntity getConta() {
         return conta;
     }
-
-    public void setConta(Conta conta) {
+    public void setConta(ContaEntity conta) {
         this.conta = conta;
-    }
-
-    public CartaoCredito(int id, String bandeira, Double limite, LocalDate dataFechamento, LocalDate dataLancamento, Conta conta) {
-        this.id = id;
-        this.bandeira = bandeira;
-        this.limite = limite;
-        this.dataFechamento = dataFechamento;
-        this.dataLancamento = dataLancamento;
-        this.conta = conta;
-    }
-
-    public CartaoCredito() {
     }
 }
