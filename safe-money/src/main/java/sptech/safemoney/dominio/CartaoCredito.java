@@ -18,11 +18,10 @@ public class CartaoCredito {
     private String bandeira;
     @PositiveOrZero
     private Double limite;
-    @Future
-    private LocalDate dataFechamento;
-    @Past
-    private LocalDate dataLancamento;
 
+    private LocalDate dataFechamento;
+
+    private LocalDate dataVencimento;
     @ManyToOne
     private ContaEntity conta;
 
@@ -59,12 +58,12 @@ public class CartaoCredito {
         this.dataFechamento = dataFechamento;
     }
 
-    public LocalDate getDataLancamento() {
-        return dataLancamento;
+    public LocalDate getDataVencimento() {
+        return dataVencimento;
     }
 
-    public void setDataLancamento(LocalDate dataLancamento) {
-        this.dataLancamento = dataLancamento;
+    public void setDataVencimento(LocalDate dataVencimento) {
+        this.dataVencimento = dataVencimento;
     }
 
     public ContaEntity getConta() {

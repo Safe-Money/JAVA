@@ -25,13 +25,13 @@ public class Transacao {
     @PositiveOrZero
     private int parcelas;
     @ManyToOne
-    private CartaoCredito cartaoCredito;
-    @ManyToOne
     private ContaEntity conta;
     @ManyToOne
     private Categoria categoria;
     @ManyToOne
     private TipoTransacao tipo;
+    @ManyToOne
+    private Fatura fatura;
 
 
     public void setId(int id) {
@@ -81,15 +81,6 @@ public class Transacao {
         this.valor = valor;
     }
 
-
-    public CartaoCredito getCartaoCredito() {
-        return cartaoCredito;
-    }
-
-    public void setCartaoCredito(CartaoCredito cartaoCredito) {
-        this.cartaoCredito = cartaoCredito;
-    }
-
     public ContaEntity getConta() {
         return conta;
     }
@@ -120,6 +111,14 @@ public class Transacao {
 
     public void setTipo(TipoTransacao tipo) {
         this.tipo = tipo;
+    }
+
+    public Fatura getFatura() {
+        return fatura;
+    }
+
+    public void setFatura(Fatura fatura) {
+        this.fatura = fatura;
     }
 
     @Override

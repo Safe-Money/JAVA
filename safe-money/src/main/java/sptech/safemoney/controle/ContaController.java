@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sptech.safemoney.dominio.ContaEntity;
 import sptech.safemoney.repositorio.ContaRepository;
+import sptech.safemoney.servico.ContaService;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +20,9 @@ public class ContaController {
 
     @Autowired
     ContaRepository repository;
+
+    @Autowired
+    ContaService service;
 
     @Operation(summary = "Busca e Lista todos as contas salvas", method = "GET")
 
@@ -40,6 +44,14 @@ public class ContaController {
                 ? ResponseEntity.status(200).body(usuario.get())
                 : ResponseEntity.status(204).build();
     }
+
+    @GetMapping("/listar-contas/{id}")
+    public ResponseEntity<List<ContaEntity>> getContasDoUsuario(@PathVariable int id) {
+        List<ContaEntity> contas = service.buscarContas(id);
+
+        return ResponseEntity.ok(contas);
+    }
+
 
     @Operation(summary = "Cadastra uma conta", method = "POST")
     @PostMapping("/")

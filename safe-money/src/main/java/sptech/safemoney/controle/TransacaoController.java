@@ -51,11 +51,40 @@ public class TransacaoController {
                 : ResponseEntity.status(204).build();
     }
 
+    @GetMapping("/listar-gastos/{id}")
+    public ResponseEntity<List<Transacao>> listarUltimosGastos(@PathVariable int id) {
+        List<Transacao> transacoes = service.listarUltimosGastos(id);
 
-    @Operation(summary = "Cadastra uma transação", method = "POST")
-    @PostMapping("/")
-    public ResponseEntity<Transacao> post(@RequestBody @Valid Transacao novaTransacao) {
-        service.verificarTransacao(novaTransacao);
+        return ResponseEntity.ok(transacoes);
+    }
+
+    @Operation(summary = "Cadastra uma despesa", method = "POST")
+    @PostMapping("/despesa")
+    public ResponseEntity<Transacao> postDespesa(@RequestBody @Valid Transacao novaTransacao) {
+        service.despesa(novaTransacao);
+
+        return ResponseEntity.status(201).body(novaTransacao);
+    }
+
+    @Operation(summary = "Cadastra uma despesa", method = "POST")
+    @PostMapping("/despesa-credito")
+    public ResponseEntity<Transacao> postDespesaCredito(@RequestBody @Valid Transacao novaTransacao) {
+        service.despesaCredito(novaTransacao);
+
+        return ResponseEntity.status(201).body(novaTransacao);
+    }
+
+    @Operation(summary = "Cadastra uma receita", method = "POST")
+    @PostMapping("/receita")
+    public ResponseEntity<Transacao> postReceita(@RequestBody @Valid Transacao novaTransacao) {
+        service.receita(novaTransacao);
+
+        return ResponseEntity.status(201).body(novaTransacao);
+    }
+
+    @PostMapping("/transferencia/{idRemetente}")
+    public ResponseEntity<Transacao> postTransferencia(@RequestBody @Valid Transacao novaTransacao, @PathVariable int idRemetente) {
+        service.transferencia(novaTransacao, idRemetente);
 
         return ResponseEntity.status(201).body(novaTransacao);
     }
