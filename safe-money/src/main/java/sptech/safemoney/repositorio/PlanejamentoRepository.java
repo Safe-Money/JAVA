@@ -19,8 +19,9 @@ public interface PlanejamentoRepository extends JpaRepository<Planejamento, Inte
             "GROUP BY p.categoria, p.valorPlanejado")
     List<Object[]> countPlanejamentosByCategoryAndUserIdAndMonth(@Param("id") int id, @Param("mes") int mes);
 
-
-    @Query("SELECT SUM(t.valor) " +
-            "FROM Planejamento where ")
+/*
+    @Query("SELECT SUM(p.valor) " +
+            "FROM Planejamento p where ")
     List<Object[]> valorPlanejadoNoMes(@Param("id") int id, @Param("mes") int mes);
+ */
 }

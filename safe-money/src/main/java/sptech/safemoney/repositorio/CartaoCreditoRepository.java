@@ -32,7 +32,7 @@ public interface CartaoCreditoRepository extends JpaRepository<CartaoCredito, In
     CartaoCredito buscarCartaoCreditoPorFatura(int idFatura);
 
     @Query("""
-    select t from Transacao t join t.fatura f where f.fkCartao = ?1 and MONTH(f.data) = mes
+    select t from Transacao t join t.fatura f where f.fkCartao = ?1 and MONTH(f.dataReferencia) = ?2
             """)
     List<Transacao> buscarFaturaPorCartao(int idCartao, int mes);
 }

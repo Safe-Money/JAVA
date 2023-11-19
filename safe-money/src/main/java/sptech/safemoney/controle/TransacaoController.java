@@ -61,9 +61,9 @@ public class TransacaoController {
     }
 
     @Operation(summary = "Lista as últimas transações de uma conta em específica", method = "GET")
-    @GetMapping("/listar-gastos-conta/{id}")
-    public ResponseEntity<List<Transacao>> listarUltimosGastosConta(@PathVariable int id) {
-        List<Transacao> transacoes = service.listarUltimosGastosConta(id);
+    @GetMapping("/listar-gastos-conta/{id}/{mes}")
+    public ResponseEntity<List<Transacao>> listarUltimosGastosConta(@PathVariable int id, @PathVariable int mes) {
+        List<Transacao> transacoes = service.listarUltimosGastosConta(id, mes);
 
         return ResponseEntity.ok(transacoes);
     }
@@ -104,11 +104,6 @@ public class TransacaoController {
     @PostMapping("/transferencia/{idRemetente}")
     public ResponseEntity<Transacao> postTransferencia(@RequestBody @Valid Transacao novaTransacao, @PathVariable int idRemetente) {
         service.transferencia(novaTransacao, idRemetente);
-      
-    @Operation(summary = "Cadastra uma transação", method = "POST")
-    @PostMapping("/")
-    public ResponseEntity<Transacao> post(@RequestBody @Valid Transacao novaTransacao) {
-        service.verificarTransacao(novaTransacao);
 
         return ResponseEntity.status(201).body(novaTransacao);
     }
