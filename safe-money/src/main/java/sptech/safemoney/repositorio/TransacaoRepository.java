@@ -16,4 +16,5 @@ public interface TransacaoRepository extends JpaRepository<Transacao, Integer> {
 
     @Query("SELECT t FROM Transacao t JOIN t.conta c WHERE c.usuario.id = :id")
     List<Transacao> findAllTransacoesByUserId(@Param("id") int id);
+
 }

@@ -27,12 +27,12 @@ public class Transacao {
     @ManyToOne
     private CartaoCredito cartaoCredito;
     @ManyToOne
-    private Conta conta;
+    private ContaEntity conta;
     @ManyToOne
     private Categoria categoria;
 
 
-    public Transacao(int id, String nome, LocalDate data, Double valor, Integer tipo, CartaoCredito cartaoCredito, Conta conta, Categoria categoria) {
+    public Transacao(int id, String nome, LocalDate data, Double valor, Integer tipo, CartaoCredito cartaoCredito, ContaEntity conta, Categoria categoria) {
         this.id = id;
         this.nome = nome;
         this.data = data;
@@ -106,11 +106,11 @@ public class Transacao {
         this.cartaoCredito = cartaoCredito;
     }
 
-    public Conta getConta() {
+    public ContaEntity getConta() {
         return conta;
     }
 
-    public void setConta(Conta conta) {
+    public void setConta(ContaEntity conta) {
         this.conta = conta;
     }
 

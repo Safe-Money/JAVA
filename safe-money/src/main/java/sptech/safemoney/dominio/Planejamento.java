@@ -13,23 +13,21 @@ public class Planejamento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     @PositiveOrZero
     private Double valorPlanejado;
-
     @Future
     private LocalDate data;
-
     @ManyToOne
     private UsuarioEntity usuario;
     @ManyToOne
     private Categoria categoria;
 
-    public Planejamento(Integer id, Double valorPlanejado, LocalDate data, UsuarioEntity usuario) {
+    public Planejamento(Integer id, Double valorPlanejado, LocalDate data, UsuarioEntity usuario, Categoria categoria) {
         this.id = id;
         this.valorPlanejado = valorPlanejado;
         this.data = data;
         this.usuario = usuario;
+        this.categoria = categoria;
     }
 
     public Integer getId() {
@@ -70,5 +68,8 @@ public class Planejamento {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
+    }
+
+    public Planejamento() {
     }
 }
