@@ -43,6 +43,17 @@ public interface ContaRepository extends JpaRepository<ContaEntity, Integer> {
     double despesaTotal(int idConta);
 
 
+    @Query("""
+    select sum(saldo) from ContaEntity c where c.id = ?1           
+    """)
+    double saldoTotalConta(int idConta);
+
+    @Query("""
+    select sum(valor) from Transacao t where t.conta.id = ?1 and DAY(t.data) <= DAY(CURRENT_DATE) and MONTH(t.data) = MONTH(CURRENT_DATE) and YEAR(t.data) = YEAR(CURRENT_DATE) and t.tipo.id in (1, 2, 3)          
+    """)
+    double despesaTotalConta(int idConta);
+
+
     // QUERY MUITO BOA, MAS SEM UTILIZAÇÃO NO MOMENTO
     @Query("""
     select sum(valor) from Transacao t where t.conta.fkUsuario.id = ?1 and DAY(t.data) <= DAY(CURRENT_DATE) and MONTH(t.data) = MONTH(CURRENT_DATE) and YEAR(t.data) = YEAR(CURRENT_DATE) and t.tipo.id in (1, 2, 3)          

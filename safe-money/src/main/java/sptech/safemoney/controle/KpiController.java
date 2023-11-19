@@ -37,4 +37,27 @@ public class KpiController {
 
         return ResponseEntity.ok(despesaTotal);
     }
+
+
+
+    @GetMapping("/saldo-total-conta/{idConta}")
+    public ResponseEntity<Double> getSaldoTotalConta(@PathVariable int idConta) {
+        double saldoTotal = service.buscarSaldoTotalConta(idConta);
+
+        return ResponseEntity.ok(saldoTotal);
+    }
+
+    @GetMapping("/despesa-total-conta/{idConta}")
+    public ResponseEntity<Double> getDespesaTotalConta(@PathVariable int idConta) {
+        double despesaTotal = service.buscarDespesaTotalConta(idConta);
+
+        return ResponseEntity.ok(despesaTotal);
+    }
+
+    @GetMapping("/fatura-total-conta/{idConta}")
+    public ResponseEntity<Double> getFaturaTotalConta(@PathVariable int idConta) {
+        double despesaTotal = service.buscarFaturaTotalConta(idConta);
+
+        return ResponseEntity.ok(despesaTotal);
+    }
 }

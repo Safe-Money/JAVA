@@ -52,6 +52,13 @@ public class CartaoCreditoController {
         return ResponseEntity.ok(cartoes);
     }
 
+    @GetMapping("/listar-cartoes-conta/{idConta}")
+    public ResponseEntity<List<CartaoCredito>> getCartaoCreditoConta(@PathVariable int idConta) {
+        List<CartaoCredito> cartoes = service.listarCartoesConta(idConta);
+
+        return ResponseEntity.ok(cartoes);
+    }
+
     @Operation(summary = "Cadastra um novo cartão", method = "POST")
     @PostMapping("/")
     public ResponseEntity<CartaoCredito> post(@RequestBody @Valid CartaoCredito novoCartao) {

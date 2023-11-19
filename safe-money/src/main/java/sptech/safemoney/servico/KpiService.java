@@ -32,4 +32,22 @@ public class KpiService {
         return faturaTotal;
     }
 
+
+    public double buscarSaldoTotalConta(int idUsuario){
+        double saldoTotal = repositoryConta.saldoTotalConta(idUsuario);
+
+        return saldoTotal;
+    }
+
+    public double buscarDespesaTotalConta(int idUsuario){
+        double despesaTotal = repositoryConta.despesaTotalConta(idUsuario);
+
+        return despesaTotal;
+    }
+
+    public double buscarFaturaTotalConta(int idUsuario){
+        double faturaTotal = repositoryFatura.faturaTotalConta(idUsuario);
+
+        return faturaTotal;
+    }
 }

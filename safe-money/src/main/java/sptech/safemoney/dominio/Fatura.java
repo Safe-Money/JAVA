@@ -14,6 +14,8 @@ public class Fatura {
     private LocalDate dataReferencia;
     @ManyToOne
     private CartaoCredito fkCartao;
+    @ManyToOne
+    private Situacao fkSituacao;
 
     public int getId() {
         return id;
@@ -53,5 +55,13 @@ public class Fatura {
 
     public void setFkCartao(CartaoCredito fkCartao) {
         this.fkCartao = fkCartao;
+    }
+
+    public Situacao getFkSituacao() {
+        return fkSituacao;
+    }
+
+    public void setFkSituacao(Situacao fkSituacao) {
+        this.fkSituacao = fkSituacao;
     }
 }

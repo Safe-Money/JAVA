@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import sptech.safemoney.dto.res.GraficoPrevistoDTO;
 import sptech.safemoney.servico.GraficoService;
 
 @RestController
@@ -14,10 +15,12 @@ public class GraficoController {
     @Autowired
     GraficoService serviceGrafico;
 
-    @GetMapping("/receira-prevista/{id}")
-    public ResponseEntity<Double> receitaPrevista(@PathVariable int id) {
-        double receitaPrevista =  serviceGrafico.receitaPrevista(id);
+    @GetMapping("/previsto/{id}/{mes}/{ano}")
+    public ResponseEntity<GraficoPrevistoDTO> receitaPrevista(@PathVariable int id) {
+        GraficoPrevistoDTO graficoPrevisto = serviceGrafico.fixoProximoMes(id);
 
-        return ResponseEntity.ok(receitaPrevista);
+        return ResponseEntity.ok(graficoPrevisto);
     }
+
+
 }

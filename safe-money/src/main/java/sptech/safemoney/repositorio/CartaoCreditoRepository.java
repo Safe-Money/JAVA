@@ -14,4 +14,19 @@ public interface CartaoCreditoRepository extends JpaRepository<CartaoCredito, In
     select c from CartaoCredito c where c.conta.fkUsuario.id = ?1
             """)
     List<CartaoCredito> listarCartaoCredito(int idUsuario);
+
+    @Query("""
+    select c from CartaoCredito c where c.conta.id = ?1
+            """)
+    List<CartaoCredito> listarCartaoCreditoConta(int idConta);
+
+    @Query("""
+    select c from CartaoCredito c where c.id = ?1
+            """)
+    CartaoCredito listarUmCartaoCredito(int idCartao);
+
+    @Query("""
+    select c from CartaoCredito c join Fatura f where f.id = ?1       
+            """)
+    CartaoCredito buscarCartaoCreditoPorFatura(int idFatura);
 }
