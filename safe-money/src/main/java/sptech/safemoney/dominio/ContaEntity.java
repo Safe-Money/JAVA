@@ -10,17 +10,10 @@ public class ContaEntity {
     private int id;
     private String nome;
     private String banco;
-
-    public UsuarioEntity getUsuario() {
-        return usuario;
-    }
-
     private int tipo;
     private double saldo;
     @ManyToOne
-    private UsuarioEntity usuario;
-
-
+    private UsuarioEntity fkUsuario;
 
     public int getId() {
         return id;
@@ -63,10 +56,10 @@ public class ContaEntity {
     }
 
     public UsuarioEntity getFkUsuario() {
-        return usuario;
+        return fkUsuario;
     }
 
     public void setFkUsuario(UsuarioEntity fkUsuario) {
-        this.usuario = fkUsuario;
+        this.fkUsuario = fkUsuario;
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface LancamentosFixosRepository extends JpaRepository<LancamentosFixos, Integer> {
     @Query("select sum(valor) from LancamentosFixos l where l.fkConta.fkUsuario.id = ?1 and " +
-            "fkSituacao.id = 2")
+            "l.fkTipoTransacao.id = 2")
     double despesaPrevistaFixa(int idUsuario);
 
 
@@ -20,7 +20,7 @@ public interface LancamentosFixosRepository extends JpaRepository<LancamentosFix
     double receitaPrevista(int idUsuario);
 
     @Query("""
-    select l from LancamentosFixos where l.fkConta.id = ?1        
+    select l from LancamentosFixos l where l.fkConta.id = ?1        
             """)
     List<LancamentosFixos> getLancamentosFixosPorConta(int idConta);
 }
