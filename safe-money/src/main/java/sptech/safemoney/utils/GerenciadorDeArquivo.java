@@ -36,9 +36,9 @@ public class GerenciadorDeArquivo {
                 Transacao transacao = lista.getElemento(i);
 
                 String tipoTransacao = "Despesa";
-                if (transacao.getTipo() == 1) {
+                if (transacao.getTipo().getId() == 1) {
                     tipoTransacao = "Receita";
-                } else if (transacao.getTipo() == 2) {
+                } else if (transacao.getTipo().getId() == 2) {
                     tipoTransacao = "Transfêrencia";
                 }
 
@@ -49,7 +49,7 @@ public class GerenciadorDeArquivo {
 
                 saida.format("%d;%s;%s;%.2f;%s;%s;%s;%s;%.2f;%s\n", transacao.getId(), transacao.getNome(), transacao.getData(), transacao.getValor(), tipoTransacao,
                         transacao.getCategoria().getNome(), transacao.getConta().getBanco(),
-                        tipoConta, transacao.getSaldoApos(), transacao.getConta().getUsuario().getNome());
+                        tipoConta, transacao.getSaldoAnterior(), transacao.getConta().getFkUsuario().getNome());
             }
         } catch (FormatterClosedException erro) {
             System.out.println("Erro ao gravar o arquivo");

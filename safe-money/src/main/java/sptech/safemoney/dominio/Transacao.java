@@ -3,7 +3,7 @@ package sptech.safemoney.dominio;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.PositiveOrZero;
 
 import java.time.LocalDate;
@@ -16,32 +16,22 @@ public class Transacao {
     private int id;
     @NotBlank
     private String nome;
-    @Past
+    @PastOrPresent
     private LocalDate data;
     @PositiveOrZero
     private Double valor;
     @PositiveOrZero
-    private Integer tipo;
+    private Double saldoAnterior;
     @PositiveOrZero
-    private Double saldoApos;
-    @ManyToOne
-    private CartaoCredito cartaoCredito;
+    private int parcelas;
     @ManyToOne
     private ContaEntity conta;
     @ManyToOne
     private Categoria categoria;
-
-
-    public Transacao(int id, String nome, LocalDate data, Double valor, Integer tipo, CartaoCredito cartaoCredito, ContaEntity conta, Categoria categoria) {
-        this.id = id;
-        this.nome = nome;
-        this.data = data;
-        this.valor = valor;
-        this.tipo = tipo;
-        this.cartaoCredito = cartaoCredito;
-        this.conta = conta;
-        this.categoria = categoria;
-    }
+    @ManyToOne
+    private TipoTransacao tipo;
+    @ManyToOne
+    private Fatura fatura;
 
     public void setId(int id) {
         this.id = id;
@@ -90,22 +80,6 @@ public class Transacao {
         this.valor = valor;
     }
 
-    public Integer getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(Integer tipo) {
-        this.tipo = tipo;
-    }
-
-    public CartaoCredito getCartaoCredito() {
-        return cartaoCredito;
-    }
-
-    public void setCartaoCredito(CartaoCredito cartaoCredito) {
-        this.cartaoCredito = cartaoCredito;
-    }
-
     public ContaEntity getConta() {
         return conta;
     }
@@ -114,12 +88,36 @@ public class Transacao {
         this.conta = conta;
     }
 
-    public Double getSaldoApos() {
-        return saldoApos;
+    public Double getSaldoAnterior() {
+        return saldoAnterior;
     }
 
-    public void setSaldoApos(Double saldoApos) {
-        this.saldoApos = saldoApos;
+    public void setSaldoAnterior(Double saldoAnterior) {
+        this.saldoAnterior = saldoAnterior;
+    }
+
+    public int getParcelas() {
+        return parcelas;
+    }
+
+    public void setParcelas(int parcelas) {
+        this.parcelas = parcelas;
+    }
+
+    public TipoTransacao getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoTransacao tipo) {
+        this.tipo = tipo;
+    }
+
+    public Fatura getFatura() {
+        return fatura;
+    }
+
+    public void setFatura(Fatura fatura) {
+        this.fatura = fatura;
     }
 
     @Override

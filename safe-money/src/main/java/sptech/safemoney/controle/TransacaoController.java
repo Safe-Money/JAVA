@@ -8,8 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sptech.safemoney.dominio.Categoria;
 import sptech.safemoney.dominio.Transacao;
+import sptech.safemoney.dto.res.GastoPorDiaDTO;
 import sptech.safemoney.repositorio.CategoriaRepository;
 import sptech.safemoney.repositorio.TransacaoRepository;
+import sptech.safemoney.servico.TransacaoService;
 import sptech.safemoney.utils.GerenciadorDeArquivo;
 import sptech.safemoney.utils.ListaObj;
 import sptech.safemoney.utils.OrdenacaoPesquisa;
@@ -21,11 +23,14 @@ import java.util.TreeSet;
 
 @Tag(name = "Transacao Controller", description = "CRUD de transações")
 @RestController
-@RequestMapping("/transacao")
+@RequestMapping("/transacoes")
 public class TransacaoController {
 
     @Autowired
     TransacaoRepository repository;
+
+    @Autowired
+    TransacaoService service;
 
     @Operation(summary = "Busca e Lista todos as transações", method = "GET")
     @GetMapping("/")
@@ -48,16 +53,60 @@ public class TransacaoController {
     }
 
 
-    @Operation(summary = "Cadastra uma transação", method = "POST")
-    @PostMapping("/")
-    public ResponseEntity<Transacao> post(@RequestBody @Valid Transacao novoUsuario) {
-        if (repository.existsById(novoUsuario.getId())) {
-            return ResponseEntity.status(409).build();
-        }
+    @Operation(summary = "Lista as últimas transações do usuário", method = "GET")
+    @GetMapping("/listar-gastos/{id}")
+    public ResponseEntity<List<Transacao>> listarUltimosGastos(@PathVariable int id) {
+        List<Transacao> transacoes = service.listarUltimosGastos(id);
 
-        repository.save(novoUsuario);
+        return ResponseEntity.ok(transacoes);
+    }
 
-        return ResponseEntity.status(201).body(novoUsuario);
+    @Operation(summary = "Lista as últimas transações de uma conta em específica", method = "GET")
+    @GetMapping("/listar-gastos-conta/{id}")
+    public ResponseEntity<List<Transacao>> listarUltimosGastosConta(@PathVariable int id) {
+        List<Transacao> transacoes = service.listarUltimosGastosConta(id);
+
+        return ResponseEntity.ok(transacoes);
+    }
+
+    @Operation(summary = "Lista as transacoes agrupadas por dia", method = "GET")
+    @GetMapping("/listar-gasto-dia/{idConta}")
+    public ResponseEntity<List<GastoPorDiaDTO>> getGastosPorDia(@PathVariable int idConta) {
+        List<GastoPorDiaDTO> gastos = service.getGastoPorDia(idConta);
+
+        return ResponseEntity.ok(gastos);
+    }
+
+    @Operation(summary = "Cadastra uma despesa", method = "POST")
+    @PostMapping("/despesa")
+    public ResponseEntity<Transacao> postDespesa(@RequestBody @Valid Transacao novaTransacao) {
+        service.despesa(novaTransacao);
+
+        return ResponseEntity.status(201).body(novaTransacao);
+    }
+
+    @Operation(summary = "Cadastra uma despesa", method = "POST")
+    @PostMapping("/despesa-credito")
+    public ResponseEntity<Transacao> postDespesaCredito(@RequestBody @Valid Transacao novaTransacao) {
+        service.despesaCredito(novaTransacao);
+
+        return ResponseEntity.status(201).body(novaTransacao);
+    }
+
+    @Operation(summary = "Cadastra uma receita", method = "POST")
+    @PostMapping("/receita")
+    public ResponseEntity<Transacao> postReceita(@RequestBody @Valid Transacao novaTransacao) {
+        service.receita(novaTransacao);
+
+        return ResponseEntity.status(201).body(novaTransacao);
+    }
+
+
+    @PostMapping("/transferencia/{idRemetente}")
+    public ResponseEntity<Transacao> postTransferencia(@RequestBody @Valid Transacao novaTransacao, @PathVariable int idRemetente) {
+        service.transferencia(novaTransacao, idRemetente);
+
+        return ResponseEntity.status(201).body(novaTransacao);
     }
 
     @Operation(summary = "Deleta uma transação", method = "DELETE")
@@ -82,6 +131,20 @@ public class TransacaoController {
         return ResponseEntity.status(404).build();
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     @Operation(summary = "Exporta para a pasta raiz do projeto um arquivo CSV com as transações do usuário indicado pelo ID", method = "GET")
     @GetMapping("/exportar/{id}")
     public ResponseEntity exportar(@PathVariable int id) {
@@ -98,6 +161,8 @@ public class TransacaoController {
         return ResponseEntity.status(200).build();
     }
 
+
+
     @Operation(summary = "Lê o arquivo CSV na pasta raiz do projeto", method = "GET")
     @GetMapping("/leCsv")
     public ResponseEntity leCSV() {
@@ -105,6 +170,7 @@ public class TransacaoController {
 
         return ResponseEntity.status(200).build();
     }
+
 
 
     @Operation(summary = "Busca um lançamento pela data da mesma e pelo ID do usuário", method = "GET")

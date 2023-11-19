@@ -20,6 +20,7 @@ public class ContaEntity {
     @ManyToOne
     private UsuarioEntity usuario;
 
+
     public int getId() {
         return id;
     }

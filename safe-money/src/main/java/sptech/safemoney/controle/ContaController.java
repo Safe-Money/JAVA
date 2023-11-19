@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sptech.safemoney.dominio.ContaEntity;
 import sptech.safemoney.repositorio.ContaRepository;
+import sptech.safemoney.servico.ContaService;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +19,9 @@ import java.util.Optional;
 public class ContaController {
     @Autowired
     ContaRepository repository;
+
+    @Autowired
+    ContaService service;
     @Operation(summary = "Busca e Lista todos as contas salvas", method = "GET")
     @GetMapping("/")
     public ResponseEntity<List<ContaEntity>> getContas() {
@@ -31,10 +35,19 @@ public class ContaController {
     @GetMapping("/{id}")
     public ResponseEntity<ContaEntity> getUser(@PathVariable int id) {
         Optional<ContaEntity> usuario = repository.findById(id);
+
         return usuario.isPresent()
                 ? ResponseEntity.status(200).body(usuario.get())
                 : ResponseEntity.status(204).build();
     }
+
+    @GetMapping("/listar-contas/{id}")
+    public ResponseEntity<List<ContaEntity>> getContasDoUsuario(@PathVariable int id) {
+        List<ContaEntity> contas = service.buscarContas(id);
+
+        return ResponseEntity.ok(contas);
+    }
+
     @Operation(summary = "Cadastra uma conta", method = "POST")
     @PostMapping("/")
     public ResponseEntity<ContaEntity> post(@RequestBody @Valid ContaEntity novaConta) {
@@ -44,6 +57,7 @@ public class ContaController {
         repository.save(novaConta);
         return ResponseEntity.status(201).body(novaConta);
     }
+  
     @Operation(summary = "Deleta uma conta", method = "DELETE")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable int id) {
@@ -53,6 +67,7 @@ public class ContaController {
         }
         return ResponseEntity.status(404).build();
     }
+  
     @Operation(summary = "Atualiza os dados de um usuário", method = "PUT")
     @PutMapping("/{id}")
     public ResponseEntity<ContaEntity> put(@RequestBody @Valid ContaEntity contaAtualizada, @PathVariable int id) {
