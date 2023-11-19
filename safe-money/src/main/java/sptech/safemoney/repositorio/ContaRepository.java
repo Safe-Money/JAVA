@@ -2,13 +2,13 @@ package sptech.safemoney.repositorio;
 
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import sptech.safemoney.dominio.ContaEntity;
 
 import java.util.List;
 import java.util.Optional;
-
 public interface ContaRepository extends JpaRepository<ContaEntity, Integer> {
     boolean existsById(Integer id);
 

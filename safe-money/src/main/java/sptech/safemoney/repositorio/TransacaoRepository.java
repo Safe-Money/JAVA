@@ -26,7 +26,6 @@ public interface TransacaoRepository extends JpaRepository<Transacao, Integer> {
     @Query("select t from Transacao t left join t.conta c where c.fkUsuario.id = ?1")
     List<Transacao> getUltimosGastosDebito(int idUsuario);
 
-
     @Query("select t from Transacao t left join t.fatura f left join f.fkCartao cc left join cc.conta c where c.id = ?1 and MONTH(t.data) = mes")
     List<Transacao> getUltimosGastosCreditoConta(int idConta, int mes);
 
@@ -36,7 +35,6 @@ public interface TransacaoRepository extends JpaRepository<Transacao, Integer> {
     @Query("select sum(valor) from Transacao t where t.conta.fkUsuario.id = ?1 and " +
             "MONTH(t.data) = MONTH(?2) and YEAR(t.data) = YEAR(?2) and t.tipo.id in (3)")
     double despesaPrevistaCartao(int idUsuario, LocalDate data);
-
 
     @Query("""
     select t.data, sum(t.valor) from Transacao t where t.conta = ?1 group by t.data        

@@ -33,7 +33,6 @@ public class Transacao {
     @ManyToOne
     private Fatura fatura;
 
-
     public void setId(int id) {
         this.id = id;
     }
