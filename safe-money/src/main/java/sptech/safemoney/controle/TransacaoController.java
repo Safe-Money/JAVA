@@ -52,7 +52,6 @@ public class TransacaoController {
                 : ResponseEntity.status(204).build();
     }
 
-
     @Operation(summary = "Lista as últimas transações do usuário", method = "GET")
     @GetMapping("/listar-gastos/{id}")
     public ResponseEntity<List<Transacao>> listarUltimosGastos(@PathVariable int id) {
@@ -105,6 +104,11 @@ public class TransacaoController {
     @PostMapping("/transferencia/{idRemetente}")
     public ResponseEntity<Transacao> postTransferencia(@RequestBody @Valid Transacao novaTransacao, @PathVariable int idRemetente) {
         service.transferencia(novaTransacao, idRemetente);
+      
+    @Operation(summary = "Cadastra uma transação", method = "POST")
+    @PostMapping("/")
+    public ResponseEntity<Transacao> post(@RequestBody @Valid Transacao novaTransacao) {
+        service.verificarTransacao(novaTransacao);
 
         return ResponseEntity.status(201).body(novaTransacao);
     }

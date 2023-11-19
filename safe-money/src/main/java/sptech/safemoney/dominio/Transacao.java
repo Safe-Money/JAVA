@@ -95,7 +95,6 @@ public class Transacao {
     public void setSaldoAnterior(Double saldoAnterior) {
         this.saldoAnterior = saldoAnterior;
     }
-
     public int getParcelas() {
         return parcelas;
     }
@@ -118,6 +117,7 @@ public class Transacao {
 
     public void setFatura(Fatura fatura) {
         this.fatura = fatura;
+
     }
 
     @Override

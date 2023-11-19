@@ -56,6 +56,7 @@ public class TransacaoService {
         repositoryTransacao.save(t);
 
         repositoryConta.descontarSaldo(t.getValor(), t.getConta().getId());
+
         repositoryConta.acrescentarSaldo(t.getValor(), idRemetente);
     }
 
@@ -109,5 +110,6 @@ public class TransacaoService {
 
     public List<GastoPorDiaDTO> getGastoPorDia(int idConta) {
         return repositoryTransacao.getGastoPorDia(idConta);
+
     }
 }

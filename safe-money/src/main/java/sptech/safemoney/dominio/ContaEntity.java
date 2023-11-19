@@ -21,6 +21,7 @@ public class ContaEntity {
     private UsuarioEntity usuario;
 
 
+
     public int getId() {
         return id;
     }

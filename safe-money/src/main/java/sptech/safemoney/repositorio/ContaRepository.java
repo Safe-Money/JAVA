@@ -9,6 +9,7 @@ import sptech.safemoney.dominio.ContaEntity;
 
 import java.util.List;
 import java.util.Optional;
+
 public interface ContaRepository extends JpaRepository<ContaEntity, Integer> {
     boolean existsById(Integer id);
 
@@ -23,7 +24,7 @@ public interface ContaRepository extends JpaRepository<ContaEntity, Integer> {
     select saldo from ContaEntity c where c.id = ?1           
     """)
     double buscarSaldoAtual(int idConta);
-
+           
     @Modifying
     @Transactional
     @Query("""
