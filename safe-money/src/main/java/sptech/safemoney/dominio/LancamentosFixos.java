@@ -12,13 +12,10 @@ public class LancamentosFixos {
     private String nome;
     private double valor;
     private LocalDate data;
-
     @ManyToOne
     private ContaEntity fkConta;
     @ManyToOne
     private TipoTransacao fkTipoTransacao;
-    @ManyToOne
-    private Situacao fkSituacao;
 
     public int getId() {
         return id;
@@ -66,13 +63,5 @@ public class LancamentosFixos {
 
     public void setFkTipoTransacao(TipoTransacao fkTipoTransacao) {
         this.fkTipoTransacao = fkTipoTransacao;
-    }
-
-    public Situacao getFkSituacao() {
-        return fkSituacao;
-    }
-
-    public void setFkSituacao(Situacao fkSituacao) {
-        this.fkSituacao = fkSituacao;
     }
 }

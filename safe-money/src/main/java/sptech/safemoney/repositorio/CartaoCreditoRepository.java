@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import sptech.safemoney.dominio.CartaoCredito;
 import sptech.safemoney.dominio.ContaEntity;
+import sptech.safemoney.dominio.Transacao;
 
 import java.util.List;
 
@@ -29,4 +30,9 @@ public interface CartaoCreditoRepository extends JpaRepository<CartaoCredito, In
     select c from CartaoCredito c join Fatura f where f.id = ?1       
             """)
     CartaoCredito buscarCartaoCreditoPorFatura(int idFatura);
+
+    @Query("""
+    select t from Transacao t join t.fatura f where f.fkCartao = ?1 and MONTH(f.data) = mes
+            """)
+    List<Transacao> buscarFaturaPorCartao(int idCartao, int mes);
 }

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import sptech.safemoney.dominio.CartaoCredito;
+import sptech.safemoney.dominio.Transacao;
 import sptech.safemoney.repositorio.CartaoCreditoRepository;
 import sptech.safemoney.servico.CartaoCreditoService;
 
@@ -55,6 +56,13 @@ public class CartaoCreditoController {
     @GetMapping("/listar-cartoes-conta/{idConta}")
     public ResponseEntity<List<CartaoCredito>> getCartaoCreditoConta(@PathVariable int idConta) {
         List<CartaoCredito> cartoes = service.listarCartoesConta(idConta);
+
+        return ResponseEntity.ok(cartoes);
+    }
+
+    @GetMapping("/listar-fatura/{idConta}/{mes}")
+    public ResponseEntity<List<Transacao>> getFatura(@PathVariable int idConta, @PathVariable int mes) {
+        List<Transacao> cartoes = service.getTransacaoFatura(idConta, mes);
 
         return ResponseEntity.ok(cartoes);
     }
