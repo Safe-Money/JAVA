@@ -131,6 +131,27 @@ public class TransacaoController {
     }
 
 
+    @Operation(summary = "Últimos lançamentos", method = "PUT")
+    @GetMapping("/ordenaValor/{id}")
+    public ResponseEntity <List<Object>> transacoesOrderyByValor(@RequestBody @Valid Transacao usuarioAtualizado, @PathVariable int id) {
+        List<Object> listaTransacoes = repository.transacoesPorValor(id);
+
+
+        return listaTransacoes.isEmpty()
+                ? ResponseEntity.status(204).build()
+                : ResponseEntity.status(200).body(listaTransacoes);
+    }
+
+    @Operation(summary = "Últimos lançamentos", method = "PUT")
+    @GetMapping("/ordenaData/{id}")
+    public ResponseEntity <List<Object>> transacoesOrderyByData(@RequestBody @Valid Transacao usuarioAtualizado, @PathVariable int id) {
+        List<Object> listaTransacoes = repository.transacoesPorData(id);
+
+
+        return listaTransacoes.isEmpty()
+                ? ResponseEntity.status(204).build()
+                : ResponseEntity.status(200).body(listaTransacoes);
+    }
 
 
 

@@ -40,4 +40,49 @@ public interface TransacaoRepository extends JpaRepository<Transacao, Integer> {
     select t.data, sum(t.valor) from Transacao t where t.conta = ?1 group by t.data        
             """)
     List<GastoPorDiaDTO> getGastoPorDia(int idConta);
+
+
+    @Query("""
+                select ca.imagemAssociada, t.valor, t.data, ti.nome, c.nome from Transacao t
+                JOIN t.tipo ti
+                JOIN t.categoria ca
+                JOIN t.conta c
+                JOIN c.fkUsuario u
+                where u.id =?1 order by t.valor desc
+            """)
+    List<Object> transacoesPorValor(int id);
+
+    @Query("""
+                select ca.imagemAssociada, t.valor, t.data, ti.nome, c.nome from Transacao t
+                JOIN t.tipo ti
+                JOIN t.categoria ca
+                JOIN t.conta c
+                JOIN c.fkUsuario u
+                where u.id =?1 order by t.data desc
+            """)
+    List<Object> transacoesPorData(int id);
+
+
+    @Query("""
+                select ca.nome, sum(t.valor) from Transacao t
+                JOIN t.tipo ti
+                JOIN t.categoria ca
+                JOIN t.conta c
+                JOIN c.fkUsuario u
+                where u.id =?1 and ti.nome = 'despesa' group by ca.nome
+            """)
+    List<Object> graficoGastosPorcategoria(int id);
+
+    @Query("""
+    SELECT ca.nome, SUM(t.valor) as total_valor 
+    FROM Transacao t
+    JOIN t.tipo ti
+    JOIN t.categoria ca
+    JOIN t.conta c
+    JOIN c.fkUsuario u
+    WHERE u.id = ?1 AND ti.nome = 'despesa' 
+    GROUP BY ca.nome
+    ORDER BY total_valor DESC
+""")
+    List<Object> top5CategoriasMaisGasto(int id);
 }
