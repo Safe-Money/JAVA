@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sptech.safemoney.dominio.Categoria;
 import sptech.safemoney.dominio.Planejamento;
 import sptech.safemoney.dominio.Transacao;
 import sptech.safemoney.repositorio.PlanejamentoRepository;
@@ -93,5 +94,47 @@ public class PlanejamentoController {
         return listaPlanejamentos.isEmpty()
                 ? ResponseEntity.status(204).build()
                 : ResponseEntity.status(200).body(listaPlanejamentos);
+    }
+
+    @Operation(summary = "Valor planejado do mês", method = "GET")
+    @GetMapping("valorMes/{id}/{mes}")
+    public ResponseEntity <Double> valorDoMes(@PathVariable int id, @PathVariable int mes) {
+        Double valorDoMes = repository.valorPlanejadoDoMes(id, mes);
+
+        if (valorDoMes != null && valorDoMes < 0) {
+            // Se o valor do mês for negativo, retorna ResponseEntity status 204
+            return ResponseEntity.status(204).build();
+        } else {
+            // Se o valor do mês não for negativo, retorna ResponseEntity com o valor no body
+            return ResponseEntity.status(200).body(valorDoMes);
+        }
+    }@Operation(summary = "Valor planejado do mês", method = "GET")
+    @GetMapping("valorGastoMes/{id}/{mes}")
+    public ResponseEntity <Double> valorGastoNoMes(@PathVariable int id, @PathVariable int mes) {
+        Double valorDoMes = repository.valorGastoDoMes(id, mes);
+
+        if (valorDoMes != null && valorDoMes < 0) {
+            // Se o valor do mês for negativo, retorna ResponseEntity status 204
+            return ResponseEntity.status(204).build();
+        } else {
+            // Se o valor do mês não for negativo, retorna ResponseEntity com o valor no body
+            return ResponseEntity.status(200).body(valorDoMes);
+        }
+    }
+
+
+
+    @Operation(summary = "Valor planejado do mês", method = "GET")
+    @GetMapping("categoriaMaisGasto/{id}/{mes}")
+    public ResponseEntity <Categoria> categoriaMaisGasto(@PathVariable int id, @PathVariable int mes) {
+        Categoria listaCategorias = repository.findTopCategoriaByUsuarioIdAndMesOrderByTotalGastoDesc(id, mes);
+
+        if (listaCategorias == null) {
+            // Se o valor do mês for negativo, retorna ResponseEntity status 204
+            return ResponseEntity.status(204).build();
+        } else {
+            // Se o valor do mês não for negativo, retorna ResponseEntity com o valor no body
+            return ResponseEntity.status(200).body(listaCategorias);
+        }
     }
 }

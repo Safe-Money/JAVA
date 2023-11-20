@@ -40,4 +40,10 @@ public interface TransacaoRepository extends JpaRepository<Transacao, Integer> {
     select t.data, sum(t.valor) from Transacao t where t.conta = ?1 group by t.data        
             """)
     List<GastoPorDiaDTO> getGastoPorDia(int idConta);
+
+
+
+
+
+
 }
