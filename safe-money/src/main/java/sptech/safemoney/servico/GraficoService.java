@@ -17,10 +17,20 @@ public class GraficoService {
 
     public GraficoPrevistoDTO fixoProximoMes(int idUsuario){
         LocalDate dataEspecifica = LocalDate.now().plusMonths(1);
-        double receitaFixa = repositoryLancamentoFixo.receitaPrevista(idUsuario);
+        Double receitaFixa = repositoryLancamentoFixo.receitaPrevista(idUsuario);
+        if (receitaFixa == null) {
+            receitaFixa = 0.0;
+        }
 
-        double despesaFixa = repositoryLancamentoFixo.despesaPrevistaFixa(idUsuario);
-        double despesaCartao = repositoryTransacao.despesaPrevistaCartao(idUsuario, dataEspecifica);
+        Double despesaFixa = repositoryLancamentoFixo.despesaPrevistaFixa(idUsuario);
+        if (despesaFixa == null) {
+            despesaFixa = 0.0;
+        }
+
+        Double despesaCartao = repositoryTransacao.despesaPrevistaCartao(idUsuario, dataEspecifica);
+        if (despesaCartao == null) {
+            despesaCartao = 0.0;
+        }
         double despesaTotal = despesaFixa + despesaCartao;
 
         double saldo = receitaFixa - despesaTotal;

@@ -34,10 +34,10 @@ public interface TransacaoRepository extends JpaRepository<Transacao, Integer> {
 
     @Query("select sum(valor) from Transacao t where t.conta.fkUsuario.id = ?1 and " +
             "MONTH(t.data) = MONTH(?2) and YEAR(t.data) = YEAR(?2) and t.tipo.id in (3)")
-    double despesaPrevistaCartao(int idUsuario, LocalDate data);
+    Double despesaPrevistaCartao(int idUsuario, LocalDate data);
 
     @Query("""
-    select t.data, sum(t.valor) from Transacao t where t.conta = ?1 group by t.data        
+    select new sptech.safemoney.dto.res.GastoPorDiaDTO(t.data, sum(t.valor)) from Transacao t where t.conta.id = ?1 group by t.data        
             """)
     List<GastoPorDiaDTO> getGastoPorDia(int idConta);
 }

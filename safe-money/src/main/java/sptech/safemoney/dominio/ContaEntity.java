@@ -15,6 +15,7 @@ public class ContaEntity {
     @ManyToOne
     private UsuarioEntity fkUsuario;
 
+
     public int getId() {
         return id;
     }

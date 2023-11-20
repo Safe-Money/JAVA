@@ -15,7 +15,7 @@ public class GraficoController {
     @Autowired
     GraficoService serviceGrafico;
 
-    @GetMapping("/previsto/{id}/{mes}/{ano}")
+    @GetMapping("/previsto/{id}")
     public ResponseEntity<GraficoPrevistoDTO> receitaPrevista(@PathVariable int id) {
         GraficoPrevistoDTO graficoPrevisto = serviceGrafico.fixoProximoMes(id);
 

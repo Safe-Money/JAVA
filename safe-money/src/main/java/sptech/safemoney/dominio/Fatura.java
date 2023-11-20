@@ -10,7 +10,6 @@ public class Fatura {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private double valor;
-    private int situacao;
     private LocalDate dataReferencia;
     @ManyToOne
     private CartaoCredito fkCartao;
@@ -31,14 +30,6 @@ public class Fatura {
 
     public void setValor(double valor) {
         this.valor = valor;
-    }
-
-    public int getSituacao() {
-        return situacao;
-    }
-
-    public void setSituacao(int situacao) {
-        this.situacao = situacao;
     }
 
     public LocalDate getDataReferencia() {

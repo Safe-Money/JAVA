@@ -15,4 +15,8 @@ public class LancamentosFixosService {
     public List<LancamentosFixos> buscarLancamentosFixos(int idConta) {
         return lancamentosFixosRepository.getLancamentosFixosPorConta(idConta);
     }
+
+    public void cadastrarLancamento(LancamentosFixos novoL) {
+        lancamentosFixosRepository.save(novoL);
+    }
 }

@@ -70,11 +70,9 @@ public class CartaoCreditoController {
     @Operation(summary = "Cadastra um novo cartão", method = "POST")
     @PostMapping("/")
     public ResponseEntity<CartaoCredito> post(@RequestBody @Valid CartaoCredito novoCartao) {
-        if (repository.existsById(novoCartao.getId())) {
-            return ResponseEntity.status(409).build();
-        }
-        repository.save(novoCartao);
-        return ResponseEntity.status(201).body(novoCartao);
+        service.cadastrarCartao(novoCartao);
+
+        return ResponseEntity.status(201).build();
     }
 
     @Operation(summary = "Deleta um novo cartão", method = "DELETE")
