@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "usuario")
@@ -19,6 +21,10 @@ public class UsuarioEntity {
     @NotBlank
     private String senha;
     private LocalDate dtNascimento;
+
+
+    @OneToMany
+    private List<Objetivo> listaUsuarios = new ArrayList<>();
 
     public UsuarioEntity() {
     }

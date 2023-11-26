@@ -41,7 +41,7 @@ public class GraficoController {
 
     @Operation(summary = "Últimos lançamentos", method = "PUT")
     @GetMapping("/top5catogoriasPorGasto/{id}")
-    public ResponseEntity <List<Object>> top5CategoriasMaisGasto(@RequestBody @Valid Transacao usuarioAtualizado, @PathVariable int id) {
+    public ResponseEntity <List<Object>> top5CategoriasMaisGasto(@PathVariable int id) {
         List<Object> listaTransacoes = repositoryTransacao.top5CategoriasMaisGasto(id);
 
         return listaTransacoes.isEmpty()

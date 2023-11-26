@@ -5,9 +5,11 @@ import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import sptech.safemoney.dominio.Fatura;
 import sptech.safemoney.dominio.Transacao;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,4 +40,9 @@ public interface FaturaRepository extends JpaRepository<Fatura, Integer> {
     select fkCartao.id from Fatura f where f.id = ?1
             """)
     int buscarFkCartao(int idFatura);
+
+
+
+
+
 }
