@@ -3,6 +3,7 @@ package sptech.safemoney.servico;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sptech.safemoney.dominio.ContaEntity;
+import sptech.safemoney.dto.res.ResumoKpiDTO;
 import sptech.safemoney.repositorio.ContaRepository;
 import sptech.safemoney.repositorio.FaturaRepository;
 
@@ -14,22 +15,31 @@ public class KpiService {
     @Autowired
     private FaturaRepository repositoryFatura;
 
-    public double buscarSaldoTotal(int idUsuario){
-        double saldoTotal = repositoryConta.saldoTotal(idUsuario);
+    public ResumoKpiDTO getResumo(int idUsuario) {
+        Double saldoTotal = repositoryConta.saldoTotal(idUsuario);
+        Double despesaTotal = repositoryConta.despesaTotal(idUsuario);
+        Double faturaTotal = repositoryFatura.faturaTotal(idUsuario);
+        if (faturaTotal == null) {
+            faturaTotal = 0.0;
+        }
 
-        return saldoTotal;
+        ResumoKpiDTO resumoDto = new ResumoKpiDTO(saldoTotal, despesaTotal, faturaTotal);
+
+        return resumoDto;
     }
 
-    public double buscarDespesaTotal(int idUsuario){
-        double despesaTotal = repositoryConta.despesaTotal(idUsuario);
 
-        return despesaTotal;
-    }
+    public ResumoKpiDTO getResumoConta(int idConta) {
+        Double saldoTotal = repositoryConta.saldoTotalConta(idConta);
+        Double despesaTotal = repositoryConta.despesaTotalConta(idConta);
+        Double faturaTotal = repositoryFatura.faturaTotalConta(idConta);
+        if (faturaTotal == null) {
+            faturaTotal = 0.0;
+        }
 
-    public double buscarFaturaTotal(int idUsuario){
-        double faturaTotal = repositoryFatura.faturaTotal(idUsuario);
+        ResumoKpiDTO resumoDto = new ResumoKpiDTO(saldoTotal, despesaTotal, faturaTotal);
 
-        return faturaTotal;
+        return resumoDto;
     }
 
 

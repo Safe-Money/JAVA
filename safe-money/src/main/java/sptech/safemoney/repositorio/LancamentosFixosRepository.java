@@ -10,14 +10,13 @@ import java.util.List;
 public interface LancamentosFixosRepository extends JpaRepository<LancamentosFixos, Integer> {
     @Query("select sum(valor) from LancamentosFixos l where l.fkConta.fkUsuario.id = ?1 and " +
             "l.fkTipoTransacao.id = 2")
-    double despesaPrevistaFixa(int idUsuario);
+    Double despesaPrevistaFixa(int idUsuario);
 
 
     @Query("""
-            select sum(valor) from Transacao t where t.conta.fkUsuario.id = ?1 and 
-            MONTH(t.data) = MONTH(?2) and YEAR(t.data) = YEAR(?2) and t.tipo.id in (3)
+            select sum(valor) from LancamentosFixos l where l.fkConta.fkUsuario.id = ?1 and l.fkTipoTransacao.id = 5
             """)
-    double receitaPrevista(int idUsuario);
+    Double receitaPrevista(int idUsuario);
 
     @Query("""
     select l from LancamentosFixos l where l.fkConta.id = ?1        
