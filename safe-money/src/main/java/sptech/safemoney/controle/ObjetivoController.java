@@ -21,8 +21,6 @@ import java.util.Optional;
 public class ObjetivoController {
     @Autowired
     ObjetivoRepository repository;
-
-
     @Operation(summary = "Busca e Lista todos as contas salvas", method = "GET")
     @GetMapping("/")
     public ResponseEntity<List<Objetivo>> getObjetivos() {
@@ -32,6 +30,7 @@ public class ObjetivoController {
                 ? ResponseEntity.status(204).build()
                 : ResponseEntity.status(200).body(listaContas);
     }
+
     @Operation(summary = "Busca e lista uma conta específica pelo ID", method = "GET")
     @GetMapping("/{id}")
     public ResponseEntity<Objetivo> getObjetivo(@PathVariable int id) {
@@ -53,6 +52,7 @@ public class ObjetivoController {
             return ResponseEntity.status(200).body(saldo); // Retorna o saldo se for diferente de zero ou null
         }
     }
+
     @Operation(summary = "Busca e lista uma conta específica pelo ID", method = "GET")
     @GetMapping("ultimoDeposito/{id}")
     public ResponseEntity<Objetivo> ultimoDeposito(@PathVariable int id) {
@@ -65,7 +65,6 @@ public class ObjetivoController {
             return ResponseEntity.status(204).build();
         }
     }
-
 
     @Operation(summary = "Cadastra uma conta", method = "POST")
     @PostMapping("/")
@@ -97,6 +96,13 @@ public class ObjetivoController {
         }
         return ResponseEntity.status(404).build();
     }
+
+    @Operation(summary = "Atualiza os dados de um usuário", method = "PUT")
+    @PutMapping("/{idObjetivo}/{novoValorInvestido}/{idUsuario}")
+    public void depositoValorInvestido(@PathVariable int idObjetivo, @PathVariable double novoValorInvestido, @PathVariable int idUsuario) {
+
+    }
+
 }
 
 

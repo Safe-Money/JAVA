@@ -1,13 +1,9 @@
 package sptech.safemoney.repositorio;
-
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import sptech.safemoney.dominio.Objetivo;
-import sptech.safemoney.dominio.UsuarioEntity;
-
-import java.util.List;
-import java.util.Optional;
-
 public interface ObjetivoRepository extends JpaRepository<Objetivo, Integer> {
     @Query("""
     SELECT SUM(o.valorInvestido) 
@@ -16,7 +12,6 @@ public interface ObjetivoRepository extends JpaRepository<Objetivo, Integer> {
     WHERE u.id = ?1 
     """)
     Double saldoTotal(int id);
-
     @Query("""
     SELECT o
     FROM Objetivo o
@@ -26,4 +21,14 @@ public interface ObjetivoRepository extends JpaRepository<Objetivo, Integer> {
     LIMIT 1
 """)
     Objetivo objetivoProximos(int id);
+
+    @Modifying
+    @Query("""
+    UPDATE Objetivo o
+    SET o.valorInvestido = :novoValorInvestido
+    WHERE o.id = :idDoObjetivo
+    AND o.fkUsuario.id = :idDoUsuario
+    """)
+    Double atualizarValorInvestido(@Param("idDoObjetivo") int idDoObjetivo, @Param("novoValorInvestido") double novoValorInvestido, @Param("idDoUsuario") int idDoUsuario);
+
 }
