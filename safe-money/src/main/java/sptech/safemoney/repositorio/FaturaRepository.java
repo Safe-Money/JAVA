@@ -17,12 +17,12 @@ public interface FaturaRepository extends JpaRepository<Fatura, Integer> {
     @Query("""
     select sum(valor) from Fatura f where f.fkCartao.conta.fkUsuario.id = ?1           
     """)
-    double faturaTotal(int idUsuario);
+    Double faturaTotal(int idUsuario);
 
     @Query("""
     select sum(valor) from Fatura f where f.fkCartao.conta.id = ?1           
     """)
-    double faturaTotalConta(int idUsuario);
+    Double faturaTotalConta(int idUsuario);
 
     @Modifying
     @Transactional
@@ -40,9 +40,5 @@ public interface FaturaRepository extends JpaRepository<Fatura, Integer> {
     select fkCartao.id from Fatura f where f.id = ?1
             """)
     int buscarFkCartao(int idFatura);
-
-
-
-
 
 }
