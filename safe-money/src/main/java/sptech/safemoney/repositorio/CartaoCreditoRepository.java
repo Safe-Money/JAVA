@@ -6,7 +6,9 @@ import sptech.safemoney.dominio.CartaoCredito;
 import sptech.safemoney.dominio.ContaEntity;
 import sptech.safemoney.dominio.Transacao;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Locale;
 
 public interface CartaoCreditoRepository extends JpaRepository<CartaoCredito, Integer> {
     boolean existsById(Integer id);
