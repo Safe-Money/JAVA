@@ -85,4 +85,9 @@ public interface TransacaoRepository extends JpaRepository<Transacao, Integer> {
     ORDER BY total_valor DESC
 """)
     List<Object> top5CategoriasMaisGasto(int id);
+
+
+
+
+
 }

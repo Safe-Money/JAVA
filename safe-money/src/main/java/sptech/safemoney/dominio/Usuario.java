@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Past;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "usuario")
@@ -22,9 +24,6 @@ public class Usuario {
     private String senha;
     @Past
     private LocalDate dtNascimento;
-
-
-
 
 
     public int getId() {
