@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import sptech.safemoney.dominio.Fatura;
 import sptech.safemoney.dominio.Transacao;
+import sptech.safemoney.dto.req.CartaoFaturaDTO;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -40,5 +41,10 @@ public interface FaturaRepository extends JpaRepository<Fatura, Integer> {
     select fkCartao.id from Fatura f where f.id = ?1
             """)
     int buscarFkCartao(int idFatura);
+
+    @Query("""
+    select new sptech.safemoney.dto.req.CartaoFaturaDTO(c.nome, c.bandeira, c.limite, c.dataFechamento, c.dataVencimento, f.dataReferencia, f.valor)  from Fatura f join f.fkCartao c where f.fkSituacao.id = 1 and c.conta.fkUsuario.id = ?1        
+            """)
+    List<CartaoFaturaDTO> getFaturasNaoPagas(int idUsuario);
 
 }

@@ -1,7 +1,10 @@
 package sptech.safemoney.servico;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import sptech.safemoney.dominio.LancamentosFixos;
 import sptech.safemoney.dominio.Transacao;
 import sptech.safemoney.dto.res.GastoPorDiaDTO;
@@ -11,6 +14,7 @@ import sptech.safemoney.repositorio.FaturaRepository;
 import sptech.safemoney.repositorio.TransacaoRepository;
 import sptech.safemoney.utils.ListaObj;
 import sptech.safemoney.utils.OrdenacaoPesquisa;
+import sptech.safemoney.utils.PilhaObj;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +29,12 @@ public class TransacaoService {
     private FaturaRepository repositoryFatura;
     @Autowired
     private CartaoCreditoRepository repositoryCartao;
+    private PilhaObj<Transacao> pilha;
+
+    @PostConstruct
+    public void iniciarPilha() {
+        pilha = new PilhaObj<>(10);
+    }
 
     public void despesa(Transacao t) {
         double saldoAtual = repositoryConta.buscarSaldoAtual(t.getConta().getId());
@@ -39,7 +49,18 @@ public class TransacaoService {
         double limiteAtual = repositoryFatura.buscarLimiteAtual(fkCartao);
         t.setSaldoAnterior(limiteAtual);
         repositoryTransacao.save(t);
+        pilha.push(t);
+
         repositoryFatura.atualizarFatura(t.getValor(), fkCartao);
+    }
+
+    public void desfazerCredito() {
+        if (pilha.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Não há ações anteriores para desfazer.");
+        }
+
+        Transacao t = pilha.pop();
+        repositoryTransacao.deleteById(t.getId());
     }
 
     public void receita(Transacao t) {
