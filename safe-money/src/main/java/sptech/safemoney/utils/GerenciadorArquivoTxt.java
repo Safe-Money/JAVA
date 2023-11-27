@@ -45,15 +45,15 @@ public class GerenciadorArquivoTxt {
             String corpo = "02";
             if (t.getConta() != null) {
                 corpo += String.format("%05d", t.getId()); //Completar de acordo com documento
-                corpo += String.format("%-40s", t.getNome());
+                corpo += String.format("%-30s", t.getNome());
                 corpo += String.format("%10s", t.getData());
                 corpo += String.format("%13.2f", t.getValor());
                 corpo += String.format("%-25s", t.getTipo().getNome());
                 corpo += String.format("%-20s", t.getCategoria().getNome());
-                corpo += String.format("%-30s", t.getConta().getNome());
+                corpo += String.format("%-20s", t.getConta().getNome());
                 corpo += String.format("%15d", t.getConta().getTipo());
                 corpo += String.format("%13.2f", t.getSaldoAnterior());
-                corpo += String.format("%-40s", t.getConta().getFkUsuario().getNome());
+                corpo += String.format("%-25s", t.getConta().getFkUsuario().getNome());
 
                 //Gravando corpo no arquivo:
                 gravaRegistro(corpo, nomeArq);
@@ -67,15 +67,15 @@ public class GerenciadorArquivoTxt {
             String corpo = "03";
             if (t.getFatura() != null) {
                 corpo += String.format("%05d", t.getId()); //Completar de acordo com documento
-                corpo += String.format("%-40s", t.getNome());
+                corpo += String.format("%-30s", t.getNome());
                 corpo += String.format("%10s", t.getData());
                 corpo += String.format("%13.2f", t.getValor());
                 corpo += String.format("%-25s", t.getTipo().getNome());
                 corpo += String.format("%-20s", t.getCategoria().getNome());
-                corpo += String.format("%-30s", t.getFatura().getFkCartao().getNome());
-                corpo += String.format("%15.2f", t.getFatura().getValor());
+                corpo += String.format("%-20s", t.getFatura().getFkCartao().getNome());
+                corpo += String.format("%-15s", t.getFatura().getFkCartao().getBandeira());
                 corpo += String.format("%13.2f", t.getSaldoAnterior());
-                corpo += String.format("%-40s", t.getFatura().getFkCartao().getConta().getFkUsuario().getNome());
+                corpo += String.format("%-25s", t.getFatura().getFkCartao().getConta().getFkUsuario().getNome());
 
 
                 //Gravando corpo no arquivo:
@@ -133,59 +133,75 @@ public class GerenciadorArquivoTxt {
                 } else if (tipoRegistro.equals("01")) {
                     System.out.println("----------É um registro de trailer---------------");
                     //Exibir quantidade de registros
-                    System.out.println("Quantidade de registros: " + registro.substring(2, 9));
+                    System.out.println("Quantidade de registros: " + registro.substring(2, 7));
 
                 } else if (tipoRegistro.equals("02")) {
                     System.out.println("---------É um registro de corpo--------------");
 
                     //Guardar dados do corpo em variáveis
                     int id = Integer.valueOf(registro.substring(2, 7).trim());
-                    String descTransacao = registro.substring(7, 47).trim();
-
+                    String descTransacao = registro.substring(7, 37).trim();
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                     // Converte a string para LocalDate
-                    LocalDate data = LocalDate.parse(registro.substring(47, 57).trim(), formatter);
+                    LocalDate data = LocalDate.parse(registro.substring(37, 47).trim(), formatter);
 
-                    double valor = Double.valueOf(registro.substring(57, 70).trim().replace(",", "."));
-                    String tipoTrans = registro.substring(70, 83).trim();
-                    String categoria = registro.substring(83, 103).trim();
-                    String banco = registro.substring(103, 133).trim();
-                    String tipoConta = registro.substring(133, 148).trim();
-                    double saldoConta = Double.valueOf(registro.substring(148, 161).trim().replace(",", "."));
-                    String titularConta = registro.substring(161, 201).trim();
+                    double valor = Double.valueOf(registro.substring(47, 60).trim().replace(",", "."));
+                    String tipoTrans = registro.substring(60, 85).trim();
+                    String categoria = registro.substring(85, 105).trim();
+                    String banco = registro.substring(105, 125).trim();
+                    int tipoConta = Integer.valueOf(registro.substring(125, 140).trim());
+                    double saldoConta = Double.valueOf(registro.substring(140, 153).trim().replace(",", "."));
+                    String titularConta = registro.substring(153, 176).trim();
 
                     // Depois de guarda a variável exiba:
 
                     System.out.println("Id: " + id);
+                    System.out.println("Nome: " + descTransacao);
+                    System.out.println("Data: " + data);
+                    System.out.println("Valor: " + valor);
+                    System.out.println("Tipo transferencia: " + tipoTrans);
+                    System.out.println("Categoria: " + categoria);
+                    System.out.println("Banco: " + banco);
+                    System.out.println("Tipo conta: " + tipoConta);
+                    System.out.println("Saldo conta: " + saldoConta);
+                    System.out.println("Titular conta: " + titularConta);
 
                     // Incrementa o contador de reg de dados lidos
                     contaRegDadosLidos++;
 
 
 
-                } else if (tipoRegistro.equals("02")) {
+                } else if (tipoRegistro.equals("03")) {
                     System.out.println("---------É um registro de corpo--------------");
 
                     //Guardar dados do corpo em variáveis
                     int id = Integer.valueOf(registro.substring(2, 7).trim());
-                    String nomeLivro = registro.substring(7, 37).trim();
-                    int numeroPaginas = Integer.valueOf(registro.substring(37, 42).trim());
-                    double preço = Double.valueOf(registro.substring(42, 48).trim().replace(",", "."));
-                    String genero = registro.substring(48, 73).trim();
-                    String autor = registro.substring(73, 103).trim();
-                    int anoPublicacao = Integer.valueOf(registro.substring(103, 107).trim());
-                    int quantidadeEstoque = Integer.valueOf(registro.substring(107, 112).trim());
+                    String descTransacao = registro.substring(7, 37).trim();
 
-                    // Depois de guarda a variável exiba:
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                    // Converte a string para LocalDate
+                    LocalDate data = LocalDate.parse(registro.substring(37, 47).trim(), formatter);
+
+                    double valor = Double.valueOf(registro.substring(47, 60).trim().replace(",", "."));
+                    String tipoTrans = registro.substring(60, 85).trim();
+                    String categoria = registro.substring(85, 105).trim();
+                    String nomeCartao = registro.substring(105, 125).trim();
+                    String bandeira = registro.substring(125, 140).trim();
+                    double saldoConta = Double.valueOf(registro.substring(140, 153).trim().replace(",", "."));
+                    String titularConta = registro.substring(153, 176).trim();
+
+                    // Depois de guarda a variavel exiba:
 
                     System.out.println("Id: " + id);
-                    System.out.println("Nome do livro: " + nomeLivro);
-                    System.out.println("Número de páginas: " + numeroPaginas);
-                    System.out.println("Preço: " + preço);
-                    System.out.println("Gênero: " + genero);
-                    System.out.println("Autor: " + autor);
-                    System.out.println("Ano de publicação: " + anoPublicacao);
-                    System.out.println("Quantidade em estoque: " + quantidadeEstoque);
+                    System.out.println("Desc: " + descTransacao);
+                    System.out.println("Data: " + data);
+                    System.out.println("Valor: " + valor);
+                    System.out.println("Tipo transferencia: " + tipoTrans);
+                    System.out.println("Categoria: " + categoria);
+                    System.out.println("Nome cartao: " + nomeCartao);
+                    System.out.println("Bandeira: " + bandeira);
+                    System.out.println("Saldo conta: " + saldoConta);
+                    System.out.println("Titular conta: " + titularConta);
 
                     // Incrementa o contador de reg de dados lidos
                     contaRegDadosLidos++;

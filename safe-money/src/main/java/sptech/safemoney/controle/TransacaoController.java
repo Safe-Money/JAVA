@@ -228,5 +228,11 @@ public class TransacaoController {
         return ResponseEntity.status(200).build();
     }
 
+    @GetMapping("/import-txt")
+    public ResponseEntity<Void> importTxt() {
+        GerenciadorArquivoTxt.leArquivoTxt("despesas");
+        return ResponseEntity.status(200).build();
+    }
+
 
 }
