@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import sptech.safemoney.dominio.UsuarioEntity;
 import sptech.safemoney.dto.UsuarioCadastroDTO;
+import sptech.safemoney.dto.res.UsuarioUpdateDTO;
 import sptech.safemoney.repositorio.UsuarioRepository;
 
 import java.util.List;
@@ -77,7 +78,7 @@ public class UsuarioController {
 
     @Operation(summary = "Atualiza os dados de um usuário", method = "PUT")
     @PutMapping("/{id}")
-    public ResponseEntity<UsuarioEntity> put(@RequestBody @Valid UsuarioCadastroDTO usuarioAtualizado, @PathVariable int id) {
+    public ResponseEntity<UsuarioEntity> put(@RequestBody UsuarioUpdateDTO usuarioAtualizado, @PathVariable int id) {
         if (repository.existsById(id)) {
             UsuarioEntity usuario = repository.findById(id).get();
             if (usuarioAtualizado.getSenha() == null) {
@@ -86,7 +87,7 @@ public class UsuarioController {
                 usuario.setId(id);
                 repository.save(usuario);
                 return ResponseEntity.status(200).build();
-                
+
             } else {
                 usuario.setNome(usuarioAtualizado.getNome());
                 usuario.setEmail(usuarioAtualizado.getEmail());
