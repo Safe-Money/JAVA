@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import sptech.safemoney.dominio.UsuarioEntity;
 import sptech.safemoney.dto.UsuarioCadastroDTO;
@@ -78,6 +79,8 @@ public class UsuarioController {
     @PutMapping("/{id}")
     public ResponseEntity<UsuarioEntity> put(@RequestBody @Valid UsuarioEntity usuarioAtualizado, @PathVariable int id) {
         if (repository.existsById(id)) {
+            String senha = usuarioAtualizado.getSenha();
+            usuarioAtualizado.setSenha(new BCryptPasswordEncoder().encode(senha));
             usuarioAtualizado.setId(id);
             repository.save(usuarioAtualizado);
             return ResponseEntity.status(200).body(usuarioAtualizado);
