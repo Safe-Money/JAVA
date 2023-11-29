@@ -77,14 +77,26 @@ public class UsuarioController {
 
     @Operation(summary = "Atualiza os dados de um usuário", method = "PUT")
     @PutMapping("/{id}")
-    public ResponseEntity<UsuarioEntity> put(@RequestBody @Valid UsuarioEntity usuarioAtualizado, @PathVariable int id) {
+    public ResponseEntity<UsuarioEntity> put(@RequestBody @Valid UsuarioCadastroDTO usuarioAtualizado, @PathVariable int id) {
         if (repository.existsById(id)) {
-            String senha = usuarioAtualizado.getSenha();
-            usuarioAtualizado.setSenha(new BCryptPasswordEncoder().encode(senha));
-            usuarioAtualizado.setId(id);
-            repository.save(usuarioAtualizado);
-            return ResponseEntity.status(200).body(usuarioAtualizado);
+            UsuarioEntity usuario = repository.findById(id).get();
+            if (usuarioAtualizado.getSenha() == null) {
+                usuario.setNome(usuarioAtualizado.getNome());
+                usuario.setEmail(usuarioAtualizado.getEmail());
+                usuario.setId(id);
+                repository.save(usuario);
+                return ResponseEntity.status(200).build();
+                
+            } else {
+                usuario.setNome(usuarioAtualizado.getNome());
+                usuario.setEmail(usuarioAtualizado.getEmail());
+                usuario.setSenha(new BCryptPasswordEncoder().encode(usuarioAtualizado.getSenha()));
+                usuario.setId(id);
+                repository.save(usuario);
+                return ResponseEntity.status(200).build();
+            }
         }
+
         return ResponseEntity.status(404).build();
     }
 
