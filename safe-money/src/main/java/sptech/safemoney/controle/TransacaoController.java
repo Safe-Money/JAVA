@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sptech.safemoney.dominio.Transacao;
+import sptech.safemoney.dto.req.DespesaCreditoDTO;
 import sptech.safemoney.dto.res.GastoPorDiaDTO;
 import sptech.safemoney.repositorio.TransacaoRepository;
 import sptech.safemoney.servico.TransacaoService;
@@ -84,10 +85,10 @@ public class TransacaoController {
 
     @Operation(summary = "Cadastra uma despesa", method = "POST")
     @PostMapping("/despesa-credito")
-    public ResponseEntity<Transacao> postDespesaCredito(@RequestBody @Valid Transacao novaTransacao) {
-        service.despesaCredito(novaTransacao);
+    public ResponseEntity<DespesaCreditoDTO> postDespesaCredito(@RequestBody @Valid DespesaCreditoDTO novaDespesa) {
+        service.despesaCredito(novaDespesa);
 
-        return ResponseEntity.status(201).body(novaTransacao);
+        return ResponseEntity.status(201).body(novaDespesa);
     }
 
     @Operation(summary = "Cadastra uma despesa", method = "POST")

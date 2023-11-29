@@ -5,10 +5,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import sptech.safemoney.dominio.CartaoCredito;
 import sptech.safemoney.dominio.Transacao;
+import sptech.safemoney.dto.res.CartaoFaturaDTO;
 import sptech.safemoney.repositorio.CartaoCreditoRepository;
 import sptech.safemoney.servico.CartaoCreditoService;
 
@@ -47,17 +47,19 @@ public class CartaoCreditoController {
     }
 
     @GetMapping("/listar-cartoes/{id}")
-    public ResponseEntity<List<CartaoCredito>> getCartaoCredito(@PathVariable int id) {
-        List<CartaoCredito> cartoes = service.listarCartoes(id);
+    public ResponseEntity<List<CartaoFaturaDTO>> getCartaoCredito(@PathVariable int id) {
+        List<CartaoFaturaDTO> cartoes = service.listarCartoes(id);
 
-        return ResponseEntity.ok(cartoes);
+        return cartoes.size() == 0 ? ResponseEntity.status(204).build()
+                : ResponseEntity.status(200).body(cartoes);
     }
 
     @GetMapping("/listar-cartoes-conta/{idConta}")
-    public ResponseEntity<List<CartaoCredito>> getCartaoCreditoConta(@PathVariable int idConta) {
-        List<CartaoCredito> cartoes = service.listarCartoesConta(idConta);
+    public ResponseEntity<List<CartaoFaturaDTO>> getCartaoCreditoConta(@PathVariable int idConta) {
+        List<CartaoFaturaDTO> cartoes = service.listarCartoesConta(idConta);
 
-        return ResponseEntity.ok(cartoes);
+        return cartoes.size() == 0 ? ResponseEntity.status(204).build()
+                : ResponseEntity.status(200).body(cartoes);
     }
 
     @GetMapping("/listar-fatura/{idConta}/{mes}")

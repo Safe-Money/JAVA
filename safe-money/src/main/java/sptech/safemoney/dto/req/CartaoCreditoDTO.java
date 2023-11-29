@@ -2,7 +2,7 @@ package sptech.safemoney.dto.req;
 
 import java.time.LocalDate;
 
-public class CartaoFaturaDTO {
+public class CartaoCreditoDTO {
     private String nomeCartao;
     private String bandeira;
     private double limite;
@@ -11,7 +11,7 @@ public class CartaoFaturaDTO {
     private LocalDate dataReferencia;
     private double valor;
 
-    public CartaoFaturaDTO(String nomeCartao, String bandeira, double limite, LocalDate dataFechamento, LocalDate dataVencimento, LocalDate dataReferencia, double valor) {
+    public CartaoCreditoDTO(String nomeCartao, String bandeira, double limite, LocalDate dataFechamento, LocalDate dataVencimento, LocalDate dataReferencia, double valor) {
         this.nomeCartao = nomeCartao;
         this.bandeira = bandeira;
         this.limite = limite;

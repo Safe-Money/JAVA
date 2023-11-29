@@ -1,62 +1,39 @@
-package sptech.safemoney.dominio;
+package sptech.safemoney.dto.req;
 
-
-import jakarta.persistence.*;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
-import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
+import sptech.safemoney.dominio.*;
 
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "transacao")
-public class Transacao {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    @NotBlank
+public class DespesaCreditoDTO {
     private String nome;
-    @PastOrPresent
     private LocalDate data;
-    @PositiveOrZero
     private Double valor;
-    @PositiveOrZero
-    private Double saldoAnterior;
-    @PositiveOrZero
     private int parcelas;
-    @Positive
     private int parcelaAtual;
-    @ManyToOne
-    private ContaEntity conta;
-    @ManyToOne
     private Categoria categoria;
-    @ManyToOne
     private TipoTransacao tipo;
-    @ManyToOne
+    private CartaoCredito cartao;
     private Fatura fatura;
+    private double saldoAnterior;
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Categoria getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(Categoria categoria) {
+    public DespesaCreditoDTO(String nome, LocalDate data, Double valor, int parcelas, int parcelaAtual, Categoria categoria, TipoTransacao tipo, CartaoCredito cartao, Fatura fatura, double saldoAnterior) {
+        this.nome = nome;
+        this.data = data;
+        this.valor = valor;
+        this.parcelas = parcelas;
+        this.parcelaAtual = parcelaAtual;
         this.categoria = categoria;
-    }
-
-    public Transacao() {
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
+        this.tipo = tipo;
+        this.cartao = cartao;
+        this.fatura = fatura;
+        this.saldoAnterior = saldoAnterior;
     }
 
     public String getNome() {
@@ -83,21 +60,6 @@ public class Transacao {
         this.valor = valor;
     }
 
-    public ContaEntity getConta() {
-        return conta;
-    }
-
-    public void setConta(ContaEntity conta) {
-        this.conta = conta;
-    }
-
-    public Double getSaldoAnterior() {
-        return saldoAnterior;
-    }
-
-    public void setSaldoAnterior(Double saldoAnterior) {
-        this.saldoAnterior = saldoAnterior;
-    }
     public int getParcelas() {
         return parcelas;
     }
@@ -114,6 +76,14 @@ public class Transacao {
         this.parcelaAtual = parcelaAtual;
     }
 
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
     public TipoTransacao getTipo() {
         return tipo;
     }
@@ -122,19 +92,27 @@ public class Transacao {
         this.tipo = tipo;
     }
 
+    public CartaoCredito getCartao() {
+        return cartao;
+    }
+
+    public void setCartao(CartaoCredito cartao) {
+        this.cartao = cartao;
+    }
+
     public Fatura getFatura() {
         return fatura;
     }
 
     public void setFatura(Fatura fatura) {
         this.fatura = fatura;
-
     }
 
-    @Override
-    public String toString() {
-        return String.format("""
-                Data: %s
-                """, data);
+    public double getSaldoAnterior() {
+        return saldoAnterior;
+    }
+
+    public void setSaldoAnterior(double saldoAnterior) {
+        this.saldoAnterior = saldoAnterior;
     }
 }

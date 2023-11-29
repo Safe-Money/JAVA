@@ -5,8 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import sptech.safemoney.dominio.Fatura;
 import sptech.safemoney.dominio.LancamentosFixos;
 import sptech.safemoney.dominio.Transacao;
+import sptech.safemoney.dto.mapper.TransacaoDespesaCreditoMapper;
+import sptech.safemoney.dto.req.DespesaCreditoDTO;
 import sptech.safemoney.dto.res.GastoPorDiaDTO;
 import sptech.safemoney.repositorio.CartaoCreditoRepository;
 import sptech.safemoney.repositorio.ContaRepository;
@@ -16,6 +19,7 @@ import sptech.safemoney.utils.ListaObj;
 import sptech.safemoney.utils.OrdenacaoPesquisa;
 import sptech.safemoney.utils.PilhaObj;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +33,12 @@ public class TransacaoService {
     private FaturaRepository repositoryFatura;
     @Autowired
     private CartaoCreditoRepository repositoryCartao;
+    private TransacaoDespesaCreditoMapper mapper;
+
+    public TransacaoService() {
+        this.mapper = new TransacaoDespesaCreditoMapper();
+    }
+
     private PilhaObj<Transacao> pilha;
 
     @PostConstruct
@@ -40,18 +50,25 @@ public class TransacaoService {
         double saldoAtual = repositoryConta.buscarSaldoAtual(t.getConta().getId());
         t.setSaldoAnterior(saldoAtual);
         repositoryTransacao.save(t);
+        pilha.push(t);
 
         repositoryConta.descontarSaldo(t.getValor(), t.getConta().getId());
     }
 
-    public void despesaCredito(Transacao t) {
-        int fkCartao = repositoryFatura.buscarFkCartao(t.getFatura().getId());
-        double limiteAtual = repositoryFatura.buscarLimiteAtual(fkCartao);
-        t.setSaldoAnterior(limiteAtual);
-        repositoryTransacao.save(t);
-        pilha.push(t);
+    public void despesaCredito(DespesaCreditoDTO novaDespesa) {
+        List<Fatura> faturas = repositoryFatura.getFaturasAbertas(LocalDate.now(), novaDespesa.getCartao().getId());
+        double limiteAtual = 10;
 
-        repositoryFatura.atualizarFatura(t.getValor(), fkCartao);
+        Transacao t = null;
+        for (int i = 1; i <= novaDespesa.getParcelas(); i++) {
+            novaDespesa.setFatura(faturas.get(i - 1));
+            novaDespesa.setSaldoAnterior(limiteAtual);
+            novaDespesa.setParcelaAtual(i);
+            t = mapper.paraEntidade(novaDespesa);
+            repositoryTransacao.save(t);
+        }
+
+        repositoryFatura.atualizarFatura(t.getValor(), novaDespesa.getCartao().getId());
     }
 
     public void desfazerCredito() {
