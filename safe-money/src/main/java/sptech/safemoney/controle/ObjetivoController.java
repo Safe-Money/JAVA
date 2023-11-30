@@ -41,6 +41,17 @@ public class ObjetivoController {
                 : ResponseEntity.status(204).build();
     }
 
+    @Operation(summary = "Busca e lista objetivos associados a um usuário específico", method = "GET")
+    @GetMapping("/usuario/{idUsuario}")
+    public ResponseEntity<List<Objetivo>> getObjetivosByUserId(@PathVariable int idUsuario) {
+        List<Objetivo> objetivos = repository.findByUserId(idUsuario);
+
+        return objetivos.isEmpty()
+                ? ResponseEntity.status(204).build()
+                : ResponseEntity.status(200).body(objetivos);
+    }
+
+
     @Operation(summary = "Busca e lista uma conta específica pelo ID", method = "GET")
     @GetMapping("saldoTotal/{id}")
     public ResponseEntity<Double> getSaldoTotal(@PathVariable int id) {
