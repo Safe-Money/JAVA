@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import sptech.safemoney.dominio.ContaEntity;
 import sptech.safemoney.dominio.Objetivo;
@@ -108,10 +109,15 @@ public class ObjetivoController {
         return ResponseEntity.status(404).build();
     }
 
-    @Operation(summary = "Atualiza os dados de um usuário", method = "PUT")
+    @Operation(summary = "Atualiza o valor investido pelo usuário", method = "PUT")
+    @Transactional
     @PutMapping("/{idObjetivo}/{novoValorInvestido}/{idUsuario}")
-    public void depositoValorInvestido(@PathVariable int idObjetivo, @PathVariable double novoValorInvestido, @PathVariable int idUsuario) {
-
+    public ResponseEntity<Void> atualizarValor(@PathVariable int idObjetivo, @PathVariable double novoValorInvestido, @PathVariable int idUsuario) {
+        if (repository.existsById(idObjetivo)) {
+            repository.atualizarValorInvestido(idObjetivo, novoValorInvestido, idUsuario);
+            return ResponseEntity.status(200).build();
+        }
+        return ResponseEntity.status(404).build();
     }
 
 }

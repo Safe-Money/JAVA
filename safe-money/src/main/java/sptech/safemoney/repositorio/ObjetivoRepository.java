@@ -32,7 +32,7 @@ public interface ObjetivoRepository extends JpaRepository<Objetivo, Integer> {
     WHERE o.id = :idDoObjetivo
     AND o.fkUsuario.id = :idDoUsuario
     """)
-    Double atualizarValorInvestido(@Param("idDoObjetivo") int idDoObjetivo, @Param("novoValorInvestido") double novoValorInvestido, @Param("idDoUsuario") int idDoUsuario);
+    void atualizarValorInvestido(@Param("idDoObjetivo") int idDoObjetivo, @Param("novoValorInvestido") double novoValorInvestido, @Param("idDoUsuario") int idDoUsuario);
 
     @Query("""
     SELECT o
