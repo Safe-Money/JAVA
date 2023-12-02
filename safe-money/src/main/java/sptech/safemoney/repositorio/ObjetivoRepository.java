@@ -15,6 +15,13 @@ public interface ObjetivoRepository extends JpaRepository<Objetivo, Integer> {
     WHERE u.id = ?1 
     """)
     Double saldoTotal(int id);
+
+    @Query("""
+    SELECT COUNT (o) FROM Objetivo o JOIN o.fkUsuario u
+    WHERE o.fkUsuario.id = :idDoUsuario AND o.valorInvestido > 0
+            """)
+    Integer iniciados(@Param("idDoUsuario") int idDoUsuario);
+
     @Query("""
     SELECT o
     FROM Objetivo o
