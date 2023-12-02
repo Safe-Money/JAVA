@@ -6,12 +6,11 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sptech.safemoney.dominio.Categoria;
 import sptech.safemoney.dominio.Transacao;
 import sptech.safemoney.dto.res.GastoPorDiaDTO;
-import sptech.safemoney.repositorio.CategoriaRepository;
 import sptech.safemoney.repositorio.TransacaoRepository;
 import sptech.safemoney.servico.TransacaoService;
+import sptech.safemoney.utils.GerenciadorArquivoTxt;
 import sptech.safemoney.utils.GerenciadorDeArquivo;
 import sptech.safemoney.utils.ListaObj;
 import sptech.safemoney.utils.OrdenacaoPesquisa;
@@ -19,7 +18,6 @@ import sptech.safemoney.utils.OrdenacaoPesquisa;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.TreeSet;
 
 @Tag(name = "Transacao Controller", description = "CRUD de transações")
 @RestController
@@ -92,6 +90,14 @@ public class TransacaoController {
         return ResponseEntity.status(201).body(novaTransacao);
     }
 
+    @Operation(summary = "Cadastra uma despesa", method = "POST")
+    @GetMapping("/desfazer-credito")
+    public ResponseEntity<Transacao> getDesfazerCredito() {
+        service.desfazerCredito();
+
+        return ResponseEntity.status(200).build();
+    }
+
     @Operation(summary = "Cadastra uma receita", method = "POST")
     @PostMapping("/receita")
     public ResponseEntity<Transacao> postReceita(@RequestBody @Valid Transacao novaTransacao) {
@@ -154,17 +160,6 @@ public class TransacaoController {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
     @Operation(summary = "Exporta para a pasta raiz do projeto um arquivo CSV com as transações do usuário indicado pelo ID", method = "GET")
     @GetMapping("/exportar/{id}")
     public ResponseEntity exportar(@PathVariable int id) {
@@ -209,6 +204,34 @@ public class TransacaoController {
         return transacaoEncontrada == -1
             ? ResponseEntity.status(404).build()
             : ResponseEntity.ok(listaObj.getElemento(transacaoEncontrada));
+    }
+
+
+    @GetMapping("/export-txt/{id}")
+    public ResponseEntity<Void> exportarTxt(@PathVariable int id) {
+        List<Transacao> gastosCredito = repository.getUltimosGastosCredito(id);
+        List<Transacao> gastosDebito = repository.getUltimosGastosDebito(id);
+
+        ListaObj<Transacao> gastosTotal = new ListaObj<>((gastosCredito.size() + gastosDebito.size()));
+
+        for (Transacao t : gastosCredito) {
+            gastosTotal.adiciona(t);
+        }
+
+        for (Transacao t : gastosDebito) {
+            gastosTotal.adiciona(t);
+        }
+
+        OrdenacaoPesquisa.ordernacaoBubbleSort(gastosTotal);
+
+        GerenciadorArquivoTxt.gravaArquivoTxt(gastosTotal, "despesas");
+        return ResponseEntity.status(200).build();
+    }
+
+    @GetMapping("/import-txt")
+    public ResponseEntity<Void> importTxt() {
+        GerenciadorArquivoTxt.leArquivoTxt("despesas");
+        return ResponseEntity.status(200).build();
     }
 
 

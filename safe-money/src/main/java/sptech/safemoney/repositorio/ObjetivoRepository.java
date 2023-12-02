@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import sptech.safemoney.dominio.Objetivo;
 public interface ObjetivoRepository extends JpaRepository<Objetivo, Integer> {
+
+
     @Query("""
     SELECT SUM(o.valorInvestido) 
     FROM Objetivo o
@@ -29,6 +31,6 @@ public interface ObjetivoRepository extends JpaRepository<Objetivo, Integer> {
     WHERE o.id = :idDoObjetivo
     AND o.fkUsuario.id = :idDoUsuario
     """)
-    Double atualizarValorInvestido(@Param("idDoObjetivo") int idDoObjetivo, @Param("novoValorInvestido") double novoValorInvestido, @Param("idDoUsuario") int idDoUsuario);
+    void atualizarValorInvestido(@Param("idDoObjetivo") int idDoObjetivo, @Param("novoValorInvestido") double novoValorInvestido, @Param("idDoUsuario") int idDoUsuario);
 
 }
