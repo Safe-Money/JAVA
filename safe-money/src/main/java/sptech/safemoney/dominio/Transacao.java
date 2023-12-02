@@ -25,7 +25,7 @@ public class Transacao {
     private Double saldoAnterior;
     @PositiveOrZero
     private int parcelas;
-    @Positive
+    @PositiveOrZero
     private int parcelaAtual;
     @ManyToOne
     private ContaEntity conta;
@@ -128,8 +128,9 @@ public class Transacao {
 
     public void setFatura(Fatura fatura) {
         this.fatura = fatura;
-
     }
+
+
 
     @Override
     public String toString() {

@@ -1,6 +1,7 @@
 package sptech.safemoney.servico;
 
 import jakarta.annotation.PostConstruct;
+import org.hibernate.validator.internal.constraintvalidators.hv.NormalizedValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -8,8 +9,10 @@ import org.springframework.web.server.ResponseStatusException;
 import sptech.safemoney.dominio.Fatura;
 import sptech.safemoney.dominio.LancamentosFixos;
 import sptech.safemoney.dominio.Transacao;
+import sptech.safemoney.dto.mapper.DespesaDebitoMapper;
 import sptech.safemoney.dto.mapper.TransacaoDespesaCreditoMapper;
 import sptech.safemoney.dto.req.DespesaCreditoDTO;
+import sptech.safemoney.dto.req.DespesaDTO;
 import sptech.safemoney.dto.res.GastoPorDiaDTO;
 import sptech.safemoney.repositorio.CartaoCreditoRepository;
 import sptech.safemoney.repositorio.ContaRepository;
@@ -33,10 +36,12 @@ public class TransacaoService {
     private FaturaRepository repositoryFatura;
     @Autowired
     private CartaoCreditoRepository repositoryCartao;
-    private TransacaoDespesaCreditoMapper mapper;
+    private TransacaoDespesaCreditoMapper mapperCredito;
+    private DespesaDebitoMapper mapperDebito;
 
     public TransacaoService() {
-        this.mapper = new TransacaoDespesaCreditoMapper();
+        this.mapperCredito = new TransacaoDespesaCreditoMapper();
+        this.mapperDebito = new DespesaDebitoMapper();
     }
 
     private PilhaObj<Transacao> pilha;
@@ -46,29 +51,33 @@ public class TransacaoService {
         pilha = new PilhaObj<>(10);
     }
 
-    public void despesa(Transacao t) {
-        double saldoAtual = repositoryConta.buscarSaldoAtual(t.getConta().getId());
-        t.setSaldoAnterior(saldoAtual);
+    public void despesa(DespesaDTO novaDespesa) {
+        double saldoAtual = repositoryConta.buscarSaldoAtual(novaDespesa.getConta().getId());
+        novaDespesa.setSaldoAnterior(saldoAtual);
+
+        Transacao t = mapperDebito.paraEntidade(novaDespesa);
         repositoryTransacao.save(t);
-        pilha.push(t);
 
         repositoryConta.descontarSaldo(t.getValor(), t.getConta().getId());
     }
 
     public void despesaCredito(DespesaCreditoDTO novaDespesa) {
         List<Fatura> faturas = repositoryFatura.getFaturasAbertas(LocalDate.now(), novaDespesa.getCartao().getId());
-        double limiteAtual = 10;
+        double limiteAtual = 0;
 
         Transacao t = null;
+
         for (int i = 1; i <= novaDespesa.getParcelas(); i++) {
             novaDespesa.setFatura(faturas.get(i - 1));
+
+            Fatura f = novaDespesa.getFatura();
+            f.setValor(novaDespesa.getValor() / novaDespesa.getParcelas());
+
             novaDespesa.setSaldoAnterior(limiteAtual);
             novaDespesa.setParcelaAtual(i);
-            t = mapper.paraEntidade(novaDespesa);
+            t = mapperCredito.paraEntidade(novaDespesa);
             repositoryTransacao.save(t);
         }
-
-        repositoryFatura.atualizarFatura(t.getValor(), novaDespesa.getCartao().getId());
     }
 
     public void desfazerCredito() {
@@ -99,7 +108,8 @@ public class TransacaoService {
     }
 
     public List<Transacao> listarUltimosGastos(int idUsuario) {
-        List<Transacao> gastosCredito = repositoryTransacao.getUltimosGastosCredito(idUsuario);
+
+        List<Transacao> gastosCredito = repositoryTransacao.getUltimosGastosCreditoData(idUsuario, LocalDate.now());
         List<Transacao> gastosDebito = repositoryTransacao.getUltimosGastosDebito(idUsuario);
 
         ListaObj<Transacao> gastosTotal = new ListaObj<>((gastosCredito.size() + gastosDebito.size()));

@@ -32,11 +32,13 @@ public class CartaoCreditoService {
         for (int i = 1; i <= 12; i++) {
             Fatura f = new Fatura();
             f.setValor(0.0);
+
             if (LocalDate.now().isAfter(novoCartao.getDataFechamento())) {
                 f.setDataReferencia(novoCartao.getDataFechamento().plusMonths(i));
             } else {
-                f.setDataReferencia(novoCartao.getDataFechamento().plusMonths(i + 1));
+                f.setDataReferencia(novoCartao.getDataFechamento().plusMonths(i - 1));
             }
+
             f.setFkCartao(novoCartao);
             f.setFkSituacao(s);
             repositoryFatura.save(f);
