@@ -25,8 +25,6 @@ public class Objetivo {
 
     @NotNull
     private int concluida;
-
-
     @PositiveOrZero
     private Double valorInvestido;
     @PositiveOrZero
