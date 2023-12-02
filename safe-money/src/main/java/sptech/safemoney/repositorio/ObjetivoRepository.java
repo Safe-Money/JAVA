@@ -24,6 +24,17 @@ public interface ObjetivoRepository extends JpaRepository<Objetivo, Integer> {
 """)
     Objetivo objetivoProximos(int id);
 
+
+    @Query("""
+    SELECT o
+    FROM Objetivo o
+    JOIN o.fkUsuario u
+    WHERE u.id = ?1
+    ORDER BY o.ultimoDeposito ASC
+    LIMIT 1
+""")
+    Objetivo ultimoDeposito(int id);
+
     @Modifying
     @Query("""
     UPDATE Objetivo o

@@ -60,9 +60,23 @@ public class ObjetivoController {
     }
 
     @Operation(summary = "Busca e lista uma conta específica pelo ID", method = "GET")
+    @GetMapping("objetivosProximos/{id}")
+    public ResponseEntity<Objetivo> objetivosProximos(@PathVariable int id) {
+        Objetivo objetivo = repository.objetivoProximos (id);
+
+
+        if (objetivo != null) {
+            return ResponseEntity.status(200).body(objetivo);
+        } else {
+            return ResponseEntity.status(204).build();
+        }
+    }
+
+
+    @Operation(summary = "Busca e lista uma conta específica pelo ID", method = "GET")
     @GetMapping("ultimoDeposito/{id}")
     public ResponseEntity<Objetivo> ultimoDeposito(@PathVariable int id) {
-        Objetivo objetivo = repository.objetivoProximos (id);
+        Objetivo objetivo = repository.ultimoDeposito (id);
 
 
         if (objetivo != null) {

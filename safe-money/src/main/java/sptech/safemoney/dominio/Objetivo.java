@@ -1,10 +1,7 @@
 package sptech.safemoney.dominio;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Future;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 
@@ -20,6 +17,9 @@ public class Objetivo {
     private String urlImagem;
 
     private LocalDate dataInicio;
+
+    @FutureOrPresent
+    private LocalDate ultimoDeposito;
     @Future
     private LocalDate dataTermino;
 
@@ -32,6 +32,14 @@ public class Objetivo {
 
     @ManyToOne
     private Usuario fkUsuario;
+
+    public LocalDate getUltimoDeposito() {
+        return ultimoDeposito;
+    }
+
+    public void setUltimoDeposito(LocalDate ultimoDeposito) {
+        this.ultimoDeposito = ultimoDeposito;
+    }
 
     public int getId() {
         return id;
@@ -104,4 +112,6 @@ public class Objetivo {
     public void setFkUsuario(Usuario fkUsuario) {
         this.fkUsuario = fkUsuario;
     }
+
+
 }
