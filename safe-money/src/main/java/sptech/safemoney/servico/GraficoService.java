@@ -2,11 +2,13 @@ package sptech.safemoney.servico;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sptech.safemoney.dto.res.GastoPorDiaDTO;
 import sptech.safemoney.dto.res.GraficoPrevistoDTO;
 import sptech.safemoney.repositorio.LancamentosFixosRepository;
 import sptech.safemoney.repositorio.TransacaoRepository;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class GraficoService {
@@ -38,5 +40,10 @@ public class GraficoService {
         GraficoPrevistoDTO graficoPrevisto = new GraficoPrevistoDTO(receitaFixa, despesaTotal, saldo);
 
         return graficoPrevisto;
+    }
+
+    public List<GastoPorDiaDTO> getGastoPorDia(int idConta) {
+        return repositoryTransacao.getGastoPorDia(idConta);
+
     }
 }

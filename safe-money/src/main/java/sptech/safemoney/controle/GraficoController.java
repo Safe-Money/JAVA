@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sptech.safemoney.dominio.Transacao;
+import sptech.safemoney.dto.res.GastoPorDiaDTO;
 import sptech.safemoney.dto.res.GraficoPrevistoDTO;
 import sptech.safemoney.repositorio.TransacaoRepository;
 import sptech.safemoney.servico.GraficoService;
@@ -40,13 +41,22 @@ public class GraficoController {
 
 
     @Operation(summary = "Últimos lançamentos", method = "PUT")
-    @GetMapping("/top5catogoriasPorGasto/{id}")
+    @GetMapping("/top5categoriasPorGasto/{id}")
     public ResponseEntity <List<Object>> top5CategoriasMaisGasto(@PathVariable int id) {
         List<Object> listaTransacoes = repositoryTransacao.top5CategoriasMaisGasto(id);
 
         return listaTransacoes.isEmpty()
                 ? ResponseEntity.status(204).build()
                 : ResponseEntity.status(200).body(listaTransacoes);
+    }
+
+
+    @Operation(summary = "Lista as transacoes agrupadas por dia", method = "GET")
+    @GetMapping("/grafico-linha-conta/{idConta}")
+    public ResponseEntity<List<GastoPorDiaDTO>> getGastosPorDia(@PathVariable int idConta) {
+        List<GastoPorDiaDTO> gastos = serviceGrafico.getGastoPorDia(idConta);
+
+        return ResponseEntity.ok(gastos);
     }
 
 

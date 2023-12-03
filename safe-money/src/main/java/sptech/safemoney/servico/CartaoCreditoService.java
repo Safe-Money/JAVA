@@ -33,7 +33,7 @@ public class CartaoCreditoService {
             Fatura f = new Fatura();
             f.setValor(0.0);
 
-            if (LocalDate.now().isAfter(novoCartao.getDataFechamento())) {
+            if (LocalDate.now().isAfter(novoCartao.getDataFechamento().minusDays(1))) {
                 f.setDataReferencia(novoCartao.getDataFechamento().plusMonths(i));
             } else {
                 f.setDataReferencia(novoCartao.getDataFechamento().plusMonths(i - 1));
@@ -88,7 +88,7 @@ public class CartaoCreditoService {
 
             */
 
-            CartaoFaturaDTO cartao = new CartaoFaturaDTO(c.getBandeira(), c.getNome(), c.getConta().getBanco(), c.getDataVencimento(), valorFatura, faturaAtrasada, c.getLimite());
+            CartaoFaturaDTO cartao = new CartaoFaturaDTO(c.getId(), c.getBandeira(), c.getNome(), c.getConta().getBanco(), c.getDataVencimento(), valorFatura, faturaAtrasada, c.getLimite());
             cartoesDto.add(cartao);
         }
 
@@ -138,7 +138,7 @@ public class CartaoCreditoService {
 
             */
 
-            CartaoFaturaDTO cartao = new CartaoFaturaDTO(c.getBandeira(), c.getNome(), c.getConta().getBanco(), c.getDataVencimento(), valorFatura, faturaAtrasada, c.getLimite());
+            CartaoFaturaDTO cartao = new CartaoFaturaDTO(c.getId(), c.getBandeira(), c.getNome(), c.getConta().getBanco(), c.getDataVencimento(), valorFatura, faturaAtrasada, c.getLimite());
             cartoesDto.add(cartao);
         }
 

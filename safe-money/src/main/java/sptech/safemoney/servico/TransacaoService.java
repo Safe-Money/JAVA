@@ -155,9 +155,4 @@ public class TransacaoService {
 
         return gastosFinal;
     }
-
-    public List<GastoPorDiaDTO> getGastoPorDia(int idConta) {
-        return repositoryTransacao.getGastoPorDia(idConta);
-
-    }
 }

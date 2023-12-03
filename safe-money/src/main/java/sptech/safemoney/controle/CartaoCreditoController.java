@@ -62,9 +62,9 @@ public class CartaoCreditoController {
                 : ResponseEntity.status(200).body(cartoes);
     }
 
-    @GetMapping("/listar-fatura/{idConta}/{mes}")
-    public ResponseEntity<List<Transacao>> getFatura(@PathVariable int idConta, @PathVariable int mes) {
-        List<Transacao> cartoes = service.getTransacaoFatura(idConta, mes);
+    @GetMapping("/listar-fatura/{idCartao}/{mes}")
+    public ResponseEntity<List<Transacao>> getFatura(@PathVariable int idCartao, @PathVariable int mes) {
+        List<Transacao> cartoes = service.getTransacaoFatura(idCartao, mes);
 
         return ResponseEntity.ok(cartoes);
     }

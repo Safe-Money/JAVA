@@ -68,14 +68,6 @@ public class TransacaoController {
         return ResponseEntity.ok(transacoes);
     }
 
-    @Operation(summary = "Lista as transacoes agrupadas por dia", method = "GET")
-    @GetMapping("/listar-gasto-dia/{idConta}")
-    public ResponseEntity<List<GastoPorDiaDTO>> getGastosPorDia(@PathVariable int idConta) {
-        List<GastoPorDiaDTO> gastos = service.getGastoPorDia(idConta);
-
-        return ResponseEntity.ok(gastos);
-    }
-
     @Operation(summary = "Cadastra uma despesa", method = "POST")
     @PostMapping("/despesa")
     public ResponseEntity<DespesaDTO> postDespesa(@RequestBody @Valid DespesaDTO novaDespesa) {

@@ -3,6 +3,7 @@ package sptech.safemoney.dto.res;
 import java.time.LocalDate;
 
 public class CartaoFaturaDTO {
+    private int id;
     private String bandeira;
     private String nome;
     private String bancoVinculado;
@@ -11,7 +12,8 @@ public class CartaoFaturaDTO {
     private boolean faturaAtrasada;
     private double limite;
 
-    public CartaoFaturaDTO(String bandeira, String nome, String bancoVinculado, LocalDate vencimento, double faturaValor, boolean faturaAtrasada, double limite) {
+    public CartaoFaturaDTO(int id, String bandeira, String nome, String bancoVinculado, LocalDate vencimento, double faturaValor, boolean faturaAtrasada, double limite) {
+        this.id = id;
         this.bandeira = bandeira;
         this.nome = nome;
         this.bancoVinculado = bancoVinculado;
@@ -19,6 +21,14 @@ public class CartaoFaturaDTO {
         this.faturaValor = faturaValor;
         this.faturaAtrasada = faturaAtrasada;
         this.limite = limite;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getBandeira() {
