@@ -88,7 +88,7 @@ public class CartaoCreditoService {
 
             */
 
-            CartaoFaturaDTO cartao = new CartaoFaturaDTO(c.getBandeira(), c.getNome(), c.getConta().getBanco(), c.getDataVencimento(), valorFatura, faturaAtrasada);
+            CartaoFaturaDTO cartao = new CartaoFaturaDTO(c.getBandeira(), c.getNome(), c.getConta().getBanco(), c.getDataVencimento(), valorFatura, faturaAtrasada, c.getLimite());
             cartoesDto.add(cartao);
         }
 
@@ -138,7 +138,7 @@ public class CartaoCreditoService {
 
             */
 
-            CartaoFaturaDTO cartao = new CartaoFaturaDTO(c.getBandeira(), c.getNome(), c.getConta().getBanco(), c.getDataVencimento(), valorFatura, faturaAtrasada);
+            CartaoFaturaDTO cartao = new CartaoFaturaDTO(c.getBandeira(), c.getNome(), c.getConta().getBanco(), c.getDataVencimento(), valorFatura, faturaAtrasada, c.getLimite());
             cartoesDto.add(cartao);
         }
 

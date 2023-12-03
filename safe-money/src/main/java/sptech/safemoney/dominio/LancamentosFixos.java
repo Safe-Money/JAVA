@@ -16,6 +16,8 @@ public class LancamentosFixos {
     private ContaEntity fkConta;
     @ManyToOne
     private TipoTransacao fkTipoTransacao;
+    @ManyToOne
+    private Categoria fkCategoria;
 
     public int getId() {
         return id;
@@ -63,5 +65,13 @@ public class LancamentosFixos {
 
     public void setFkTipoTransacao(TipoTransacao fkTipoTransacao) {
         this.fkTipoTransacao = fkTipoTransacao;
+    }
+
+    public Categoria getFkCategoria() {
+        return fkCategoria;
+    }
+
+    public void setFkCategoria(Categoria fkCategoria) {
+        this.fkCategoria = fkCategoria;
     }
 }

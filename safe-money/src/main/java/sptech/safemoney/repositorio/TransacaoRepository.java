@@ -31,7 +31,7 @@ public interface TransacaoRepository extends JpaRepository<Transacao, Integer> {
     @Query("select t from Transacao t left join t.conta c where c.fkUsuario.id = ?1")
     List<Transacao> getUltimosGastosDebito(int idUsuario);
 
-    @Query("select t from Transacao t left join t.fatura f left join f.fkCartao cc left join cc.conta c where c.id = ?1 and MONTH(t.data) = 2")
+    @Query("select t from Transacao t left join t.fatura f left join f.fkCartao cc left join cc.conta c where c.id = ?1 and MONTH(t.data) = ?2")
     List<Transacao> getUltimosGastosCreditoConta(int idConta, int mes);
 
     @Query("select t from Transacao t left join t.conta c where c.id = ?1 and MONTH(t.data) = ?2")
