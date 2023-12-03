@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sptech.safemoney.dominio.ContaEntity;
+import sptech.safemoney.dto.res.InfoContaDTO;
 import sptech.safemoney.repositorio.ContaRepository;
 import sptech.safemoney.servico.ContaService;
 
@@ -46,6 +47,13 @@ public class ContaController {
         List<ContaEntity> contas = service.buscarContas(id);
 
         return ResponseEntity.ok(contas);
+    }
+
+    @GetMapping("/info-conta/{id}")
+    public ResponseEntity<InfoContaDTO> getInfoConta(@PathVariable int id) {
+        InfoContaDTO info = service.getInfoConta(id);
+
+        return ResponseEntity.ok(info);
     }
 
     @Operation(summary = "Cadastra uma conta", method = "POST")

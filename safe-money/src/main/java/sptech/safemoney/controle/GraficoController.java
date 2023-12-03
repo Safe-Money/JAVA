@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sptech.safemoney.dominio.Transacao;
 import sptech.safemoney.dto.res.GastoPorDiaDTO;
+import sptech.safemoney.dto.res.GraficoPizzaDTO;
 import sptech.safemoney.dto.res.GraficoPrevistoDTO;
 import sptech.safemoney.repositorio.TransacaoRepository;
 import sptech.safemoney.servico.GraficoService;
@@ -30,9 +31,9 @@ public class GraficoController {
     }
 
     @Operation(summary = "Últimos lançamentos", method = "PUT")
-    @GetMapping("/gastosPorCategoria/{id}")
-    public ResponseEntity <List<Object>> transacoesOrderyByData(@RequestBody @Valid Transacao usuarioAtualizado, @PathVariable int id) {
-        List<Object> listaTransacoes = repositoryTransacao.graficoGastosPorcategoria(id);
+    @GetMapping("/gastos-por-categoria/{id}")
+    public ResponseEntity <List<GraficoPizzaDTO>> transacoesOrderyByData(@PathVariable int id) {
+        List<GraficoPizzaDTO> listaTransacoes = serviceGrafico.getGraficoPizzaDTO(id);
 
         return listaTransacoes.isEmpty()
                 ? ResponseEntity.status(204).build()
@@ -41,8 +42,8 @@ public class GraficoController {
 
 
     @Operation(summary = "Últimos lançamentos", method = "PUT")
-    @GetMapping("/top5categoriasPorGasto/{id}")
-    public ResponseEntity <List<Object>> top5CategoriasMaisGasto(@PathVariable int id) {
+    @GetMapping("/top5-gastos/{id}")
+    public ResponseEntity<List<Object>> top5CategoriasMaisGasto(@PathVariable int id) {
         List<Object> listaTransacoes = repositoryTransacao.top5CategoriasMaisGasto(id);
 
         return listaTransacoes.isEmpty()

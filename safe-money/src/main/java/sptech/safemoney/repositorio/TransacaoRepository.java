@@ -8,6 +8,7 @@ import sptech.safemoney.dominio.Categoria;
 import sptech.safemoney.dominio.LancamentosFixos;
 import sptech.safemoney.dominio.Transacao;
 import sptech.safemoney.dto.res.GastoPorDiaDTO;
+import sptech.safemoney.dto.res.GraficoPizzaDTO;
 import sptech.safemoney.utils.ListaObj;
 
 import java.time.LocalDate;
@@ -69,14 +70,14 @@ public interface TransacaoRepository extends JpaRepository<Transacao, Integer> {
 
 
     @Query("""
-                select ca.nome, sum(t.valor) from Transacao t
+                select new sptech.safemoney.dto.res.GraficoPizzaDTO(ca.nome, sum(t.valor)) from Transacao t
                 JOIN t.tipo ti
                 JOIN t.categoria ca
                 JOIN t.conta c
                 JOIN c.fkUsuario u
                 where u.id =?1 and ti.nome = 'despesa' group by ca.nome
             """)
-    List<Object> graficoGastosPorcategoria(int id);
+    List<GraficoPizzaDTO> graficoGastosPorcategoria(int id);
 
     @Query("""
     SELECT ca.nome, SUM(t.valor) as total_valor 

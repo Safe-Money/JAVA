@@ -3,6 +3,7 @@ package sptech.safemoney.servico;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sptech.safemoney.dto.res.GastoPorDiaDTO;
+import sptech.safemoney.dto.res.GraficoPizzaDTO;
 import sptech.safemoney.dto.res.GraficoPrevistoDTO;
 import sptech.safemoney.repositorio.LancamentosFixosRepository;
 import sptech.safemoney.repositorio.TransacaoRepository;
@@ -44,6 +45,9 @@ public class GraficoService {
 
     public List<GastoPorDiaDTO> getGastoPorDia(int idConta) {
         return repositoryTransacao.getGastoPorDia(idConta);
+    }
 
+    public List<GraficoPizzaDTO> getGraficoPizzaDTO(int id) {
+        return repositoryTransacao.graficoGastosPorcategoria(id);
     }
 }

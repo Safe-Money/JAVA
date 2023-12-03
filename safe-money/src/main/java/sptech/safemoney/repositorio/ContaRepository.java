@@ -7,7 +7,9 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import sptech.safemoney.dominio.ContaEntity;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 public interface ContaRepository extends JpaRepository<ContaEntity, Integer> {
@@ -66,4 +68,15 @@ public interface ContaRepository extends JpaRepository<ContaEntity, Integer> {
     select c from ContaEntity c where c.fkUsuario.id = ?1
             """)
     List<ContaEntity> listarContas(int idUsuario);
+
+
+    @Query("""
+    select sum(t.valor) from Transacao t join t.conta c where c.id = ?1 and MONTH(t.data) = MONTH(?2) and t.tipo.id in (1, 2, 3)        
+            """)
+    Double getDespesaContaMes(int idConta, LocalDate dataAtual);
+
+    @Query("""
+    select sum(t.valor) from Transacao t join t.conta c where c.id = ?1 and MONTH(t.data) = MONTH(?2) and t.tipo.id in (4, 5)        
+            """)
+    Double getReceitaContaMes(int idConta, LocalDate dataAtual);
 }

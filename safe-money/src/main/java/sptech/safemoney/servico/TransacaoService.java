@@ -71,7 +71,7 @@ public class TransacaoService {
             novaDespesa.setFatura(faturas.get(i - 1));
 
             Fatura f = novaDespesa.getFatura();
-            f.setValor(novaDespesa.getValor() / novaDespesa.getParcelas());
+            f.setValor(f.getValor() + (novaDespesa.getValor() / novaDespesa.getParcelas()));
 
             novaDespesa.setSaldoAnterior(limiteAtual);
             novaDespesa.setParcelaAtual(i);
