@@ -61,5 +61,13 @@ public class GraficoController {
     }
 
 
+    @Operation(summary = "Lista as transacoes agrupadas por dia", method = "GET")
+    @GetMapping("/grafico-linha-geral/{idUser}")
+    public ResponseEntity<List<GastoPorDiaDTO>> getGastosPorDiaGeral(@PathVariable int idUser) {
+        List<GastoPorDiaDTO> gastos = serviceGrafico.getGastoPorDiaGeral(idUser);
+
+        return ResponseEntity.ok(gastos);
+    }
+
 }
 

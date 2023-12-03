@@ -47,6 +47,10 @@ public class GraficoService {
         return repositoryTransacao.getGastoPorDia(idConta);
     }
 
+    public List<GastoPorDiaDTO> getGastoPorDiaGeral(int idUser) {
+        return repositoryTransacao.getGastoPorDiaGeral(idUser);
+    }
+
     public List<GraficoPizzaDTO> getGraficoPizzaDTO(int id) {
         return repositoryTransacao.graficoGastosPorcategoria(id);
     }

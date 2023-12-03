@@ -49,6 +49,12 @@ public interface TransacaoRepository extends JpaRepository<Transacao, Integer> {
 
 
     @Query("""
+    select new sptech.safemoney.dto.res.GastoPorDiaDTO(t.data, sum(t.valor)) from Transacao t where t.conta.fkUsuario.id = ?1 group by t.data        
+            """)
+    List<GastoPorDiaDTO> getGastoPorDiaGeral(int idUser);
+
+
+    @Query("""
                 select ca.imagemAssociada, t.valor, t.data, ti.nome, c.nome from Transacao t
                 JOIN t.tipo ti
                 JOIN t.categoria ca

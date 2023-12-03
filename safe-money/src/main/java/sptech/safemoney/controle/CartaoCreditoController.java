@@ -80,12 +80,9 @@ public class CartaoCreditoController {
     @Operation(summary = "Deleta um novo cartão", method = "DELETE")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable int id) {
-        if (repository.existsById(id)) {
-            repository.deleteById(id);
-            return ResponseEntity.status(200).build();
-        }
+        service.deletarCartao(id);
 
-        return ResponseEntity.status(404).build();
+        return ResponseEntity.status(200).build();
     }
 
     @Operation(summary = "Atualiza os dados de um cartão", method = "PUT")

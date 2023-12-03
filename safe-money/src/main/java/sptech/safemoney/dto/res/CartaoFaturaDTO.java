@@ -8,16 +8,18 @@ public class CartaoFaturaDTO {
     private String nome;
     private String bancoVinculado;
     private LocalDate vencimento;
+    private LocalDate fechamento;
     private double faturaValor;
     private boolean faturaAtrasada;
     private double limite;
 
-    public CartaoFaturaDTO(int id, String bandeira, String nome, String bancoVinculado, LocalDate vencimento, double faturaValor, boolean faturaAtrasada, double limite) {
+    public CartaoFaturaDTO(int id, String bandeira, String nome, String bancoVinculado, LocalDate vencimento, LocalDate fechamento, double faturaValor, boolean faturaAtrasada, double limite) {
         this.id = id;
         this.bandeira = bandeira;
         this.nome = nome;
         this.bancoVinculado = bancoVinculado;
         this.vencimento = vencimento;
+        this.fechamento = fechamento;
         this.faturaValor = faturaValor;
         this.faturaAtrasada = faturaAtrasada;
         this.limite = limite;
@@ -61,6 +63,14 @@ public class CartaoFaturaDTO {
 
     public void setVencimento(LocalDate vencimento) {
         this.vencimento = vencimento;
+    }
+
+    public LocalDate getFechamento() {
+        return fechamento;
+    }
+
+    public void setFechamento(LocalDate fechamento) {
+        this.fechamento = fechamento;
     }
 
     public double getFaturaValor() {

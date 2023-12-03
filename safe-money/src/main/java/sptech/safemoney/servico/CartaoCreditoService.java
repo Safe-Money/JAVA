@@ -2,7 +2,9 @@ package sptech.safemoney.servico;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import sptech.safemoney.dominio.CartaoCredito;
 import sptech.safemoney.dominio.Fatura;
 import sptech.safemoney.dominio.Situacao;
@@ -88,7 +90,7 @@ public class CartaoCreditoService {
 
             */
 
-            CartaoFaturaDTO cartao = new CartaoFaturaDTO(c.getId(), c.getBandeira(), c.getNome(), c.getConta().getBanco(), c.getDataVencimento(), valorFatura, faturaAtrasada, c.getLimite());
+            CartaoFaturaDTO cartao = new CartaoFaturaDTO(c.getId(), c.getBandeira(), c.getNome(), c.getConta().getBanco(), c.getDataVencimento(), c.getDataFechamento(), valorFatura, faturaAtrasada, c.getLimite());
             cartoesDto.add(cartao);
         }
 
@@ -138,7 +140,7 @@ public class CartaoCreditoService {
 
             */
 
-            CartaoFaturaDTO cartao = new CartaoFaturaDTO(c.getId(), c.getBandeira(), c.getNome(), c.getConta().getBanco(), c.getDataVencimento(), valorFatura, faturaAtrasada, c.getLimite());
+            CartaoFaturaDTO cartao = new CartaoFaturaDTO(c.getId(), c.getBandeira(), c.getNome(), c.getConta().getBanco(), c.getDataVencimento(), c.getDataFechamento(), valorFatura, faturaAtrasada, c.getLimite());
             cartoesDto.add(cartao);
         }
 
@@ -147,5 +149,15 @@ public class CartaoCreditoService {
 
     public List<Transacao> getTransacaoFatura(int idCartao, int mes) {
         return repositoryCartao.buscarFaturaPorCartao(idCartao, mes);
+    }
+
+    public void deletarCartao(int idCartao) {
+        if (!repositoryCartao.existsById(idCartao)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cartão não encontrado");
+        }
+
+        int teste = repositoryCartao.deletarTransacoesCartao(idCartao);
+        repositoryCartao.deletarFaturasCartao(idCartao);
+        repositoryCartao.deleteById(idCartao);
     }
 }

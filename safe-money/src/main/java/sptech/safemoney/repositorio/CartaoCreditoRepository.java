@@ -1,6 +1,8 @@
 package sptech.safemoney.repositorio;
 
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import sptech.safemoney.dominio.CartaoCredito;
 import sptech.safemoney.dominio.ContaEntity;
@@ -37,4 +39,18 @@ public interface CartaoCreditoRepository extends JpaRepository<CartaoCredito, In
     select t from Transacao t join t.fatura f where f.fkCartao.id = ?1 and MONTH(f.dataReferencia) = ?2
             """)
     List<Transacao> buscarFaturaPorCartao(int idCartao, int mes);
+
+    @Modifying
+    @Transactional
+    @Query("""
+    delete from Transacao t where t.fatura.fkCartao.id = ?1
+            """)
+    int deletarTransacoesCartao(int idCartao);
+
+    @Modifying
+    @Transactional
+    @Query("""
+    delete from Fatura f where f.fkCartao.id = ?1
+            """)
+    int deletarFaturasCartao(int idCartao);
 }
