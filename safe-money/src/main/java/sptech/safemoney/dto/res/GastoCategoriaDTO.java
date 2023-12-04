@@ -2,13 +2,15 @@ package sptech.safemoney.dto.res;
 
 public class GastoCategoriaDTO {
     private Integer idPlanejamento;
-    private int categoria;
+    private int idCategoria;
+    private String nomeCategoria;
     private double totalGasto;
     private double valorPlanejado;
 
-    public GastoCategoriaDTO(Integer idPlanejamento, int categoria, double totalGasto, double valorPlanejado) {
+    public GastoCategoriaDTO(Integer idPlanejamento, int idCategoria, String nomeCategoria, double totalGasto, double valorPlanejado) {
         this.idPlanejamento = idPlanejamento;
-        this.categoria = categoria;
+        this.idCategoria = idCategoria;
+        this.nomeCategoria = nomeCategoria;
         this.totalGasto = totalGasto;
         this.valorPlanejado = valorPlanejado;
     }
@@ -21,12 +23,20 @@ public class GastoCategoriaDTO {
         this.idPlanejamento = idPlanejamento;
     }
 
-    public int getCategoria() {
-        return categoria;
+    public int getIdCategoria() {
+        return idCategoria;
     }
 
-    public void setCategoria(int categoria) {
-        this.categoria = categoria;
+    public void setIdCategoria(int idCategoria) {
+        this.idCategoria = idCategoria;
+    }
+
+    public String getNomeCategoria() {
+        return nomeCategoria;
+    }
+
+    public void setNomeCategoria(String nomeCategoria) {
+        this.nomeCategoria = nomeCategoria;
     }
 
     public double getTotalGasto() {

@@ -2,11 +2,13 @@ package sptech.safemoney.dto.req;
 
 public class CategoriaValorPlanejadoDTO {
     private Integer idCategoria;
+    private String nomeCategoria;
     private Integer idPlanejamento;
     private double valorPlanejado;
 
-    public CategoriaValorPlanejadoDTO(Integer idCategoria, Integer idPlanejamento, double valorPlanejado) {
+    public CategoriaValorPlanejadoDTO(Integer idCategoria, String nomeCategoria, Integer idPlanejamento, double valorPlanejado) {
         this.idCategoria = idCategoria;
+        this.nomeCategoria = nomeCategoria;
         this.idPlanejamento = idPlanejamento;
         this.valorPlanejado = valorPlanejado;
     }
@@ -17,6 +19,14 @@ public class CategoriaValorPlanejadoDTO {
 
     public void setIdCategoria(Integer idCategoria) {
         this.idCategoria = idCategoria;
+    }
+
+    public String getNomeCategoria() {
+        return nomeCategoria;
+    }
+
+    public void setNomeCategoria(String nomeCategoria) {
+        this.nomeCategoria = nomeCategoria;
     }
 
     public Integer getIdPlanejamento() {

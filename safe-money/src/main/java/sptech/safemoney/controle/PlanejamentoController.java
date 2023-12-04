@@ -157,7 +157,7 @@ public class PlanejamentoController {
                 if (gastoTotal == null) {
                     gastoTotal = 0.0;
                 }
-                GastoCategoriaDTO gasto = new GastoCategoriaDTO(c.getIdPlanejamento(), c.getIdCategoria(), gastoTotal, c.getValorPlanejado());
+                GastoCategoriaDTO gasto = new GastoCategoriaDTO(c.getIdPlanejamento(), c.getIdCategoria(), c.getNomeCategoria(), gastoTotal, c.getValorPlanejado());
                 gastoCategorias.add(gasto);
         }
 

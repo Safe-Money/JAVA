@@ -51,7 +51,7 @@ public interface PlanejamentoRepository extends JpaRepository<Planejamento, Inte
 
 
     @Query("""
-    select new sptech.safemoney.dto.req.CategoriaValorPlanejadoDTO(c.id, p.id, p.valorPlanejado) from Planejamento p join p.categoria c where p.usuario.id = ?1 
+    select new sptech.safemoney.dto.req.CategoriaValorPlanejadoDTO(c.id, c.nome, p.id, p.valorPlanejado) from Planejamento p join p.categoria c where p.usuario.id = ?1 
             """)
     List<CategoriaValorPlanejadoDTO> getCategoriasPlanejadas(int id);
 
