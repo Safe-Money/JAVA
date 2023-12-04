@@ -54,8 +54,8 @@ public class TransacaoService {
     public void despesa(DespesaDTO novaDespesa) {
         double saldoAtual = repositoryConta.buscarSaldoAtual(novaDespesa.getConta().getId());
         novaDespesa.setSaldoAnterior(saldoAtual);
-
         Transacao t = mapperDebito.paraEntidade(novaDespesa);
+        System.out.println(t.getValor());
         repositoryTransacao.save(t);
 
         repositoryConta.descontarSaldo(t.getValor(), t.getConta().getId());

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import sptech.safemoney.dominio.Categoria;
 import sptech.safemoney.dominio.Planejamento;
 import sptech.safemoney.dominio.Transacao;
+import sptech.safemoney.dto.res.GastoCategoriaDTO;
 import sptech.safemoney.repositorio.PlanejamentoRepository;
 import sptech.safemoney.repositorio.TransacaoRepository;
 import sptech.safemoney.utils.GerenciadorDeArquivo;
@@ -16,6 +17,7 @@ import sptech.safemoney.utils.ListaObj;
 import sptech.safemoney.utils.OrdenacaoPesquisa;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,9 +38,6 @@ public class PlanejamentoController {
                 ? ResponseEntity.status(204).build()
                 : ResponseEntity.status(200).body(listaPlanejamento);
     }
-
-
-
 
     @Operation(summary = "Cadastra um planejamento", method = "POST")
     @PostMapping("/")
@@ -108,7 +107,9 @@ public class PlanejamentoController {
             // Se o valor do mês não for negativo, retorna ResponseEntity com o valor no body
             return ResponseEntity.status(200).body(valorDoMes);
         }
-    }@Operation(summary = "Valor planejado do mês", method = "GET")
+    }
+
+    @Operation(summary = "Valor planejado do mês", method = "GET")
     @GetMapping("valorGastoMes/{id}/{mes}")
     public ResponseEntity <Double> valorGastoNoMes(@PathVariable int id, @PathVariable int mes) {
         Double valorDoMes = repository.valorGastoDoMes(id, mes);
@@ -123,7 +124,6 @@ public class PlanejamentoController {
     }
 
 
-
     @Operation(summary = "Valor planejado do mês", method = "GET")
     @GetMapping("categoriaMaisGasto/{id}/{mes}")
     public ResponseEntity <Categoria> categoriaMaisGasto(@PathVariable int id, @PathVariable int mes) {
@@ -136,5 +136,19 @@ public class PlanejamentoController {
             // Se o valor do mês não for negativo, retorna ResponseEntity com o valor no body
             return ResponseEntity.status(200).body(listaCategorias);
         }
+    }
+
+
+    @GetMapping("/busca-gastos-categoria/{id}")
+    public ResponseEntity<List<GastoCategoriaDTO>> categoriaMaisGasta(@PathVariable int id) {
+        List<Categoria> categorias = repository.getCategoriasPlanejadas(id);
+
+        List<GastoCategoriaDTO> gastoCategorias = new ArrayList<>();
+        for (Categoria c : categorias) {
+            gastoCategorias.add(repository.getGastoDTO(c.getId(), LocalDate.now()));
+        }
+
+
+        return ResponseEntity.status(200).body(gastoCategorias);
     }
 }

@@ -21,7 +21,6 @@ public class Transacao {
     private LocalDate data;
     @PositiveOrZero
     private Double valor;
-    @PositiveOrZero
     private Double saldoAnterior;
     @PositiveOrZero
     private int parcelas;

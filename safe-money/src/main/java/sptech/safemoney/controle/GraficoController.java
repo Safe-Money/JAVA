@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sptech.safemoney.dominio.Transacao;
 import sptech.safemoney.dto.res.GastoPorDiaDTO;
+import sptech.safemoney.dto.res.GraficoLinhaKpiDTO;
 import sptech.safemoney.dto.res.GraficoPizzaDTO;
 import sptech.safemoney.dto.res.GraficoPrevistoDTO;
 import sptech.safemoney.repositorio.TransacaoRepository;
@@ -65,6 +66,13 @@ public class GraficoController {
     @GetMapping("/grafico-linha-geral/{idUser}")
     public ResponseEntity<List<GastoPorDiaDTO>> getGastosPorDiaGeral(@PathVariable int idUser) {
         List<GastoPorDiaDTO> gastos = serviceGrafico.getGastoPorDiaGeral(idUser);
+
+        return ResponseEntity.ok(gastos);
+    }
+
+    @GetMapping("/grafico-linha-kpi/{idUser}")
+    public ResponseEntity<GraficoLinhaKpiDTO> getKpiGraficoLinha(@PathVariable int idUser) {
+        GraficoLinhaKpiDTO gastos = serviceGrafico.getKpiGraficoLinha(idUser);
 
         return ResponseEntity.ok(gastos);
     }

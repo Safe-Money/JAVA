@@ -156,8 +156,9 @@ public class CartaoCreditoService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cartão não encontrado");
         }
 
-        int teste = repositoryCartao.deletarTransacoesCartao(idCartao);
-        repositoryCartao.deletarFaturasCartao(idCartao);
+        // Excluindo as transações primeiro e depois as faturas para evitar erro de Constraint no banco
+        int transaçõesExcluidas = repositoryCartao.deletarTransacoesCartao(idCartao);
+        int faturasExcluidas = repositoryCartao.deletarFaturasCartao(idCartao);
         repositoryCartao.deleteById(idCartao);
     }
 }
