@@ -43,9 +43,6 @@ public class PlanejamentoController {
     @Operation(summary = "Cadastra um planejamento", method = "POST")
     @PostMapping("/")
     public ResponseEntity<Planejamento> post(@RequestBody @Valid Planejamento novoPlanejamento) {
-        if (repository.existsById(novoPlanejamento.getId())) {
-            return ResponseEntity.status(409).build();
-        }
 
         repository.save(novoPlanejamento);
 
@@ -163,5 +160,11 @@ public class PlanejamentoController {
 
 
         return ResponseEntity.status(200).body(gastoCategorias);
+    }
+
+    @GetMapping("/totalPlanejado/{id}")
+    public ResponseEntity<Double> total(@PathVariable int id) {
+        Double totalPlanejado = repository.totalPlanejado(id);
+        return ResponseEntity.status(200).body(totalPlanejado);
     }
 }

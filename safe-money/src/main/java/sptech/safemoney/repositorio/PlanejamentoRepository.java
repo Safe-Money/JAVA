@@ -48,7 +48,8 @@ public interface PlanejamentoRepository extends JpaRepository<Planejamento, Inte
             "HAVING SUM(t.valor) = (SELECT MAX(totalGasto) FROM (SELECT SUM(valor) as totalGasto FROM Transacao tt JOIN tt.conta cc JOIN cc.fkUsuario uu WHERE uu.id = :id AND MONTH(tt.data) = :mes GROUP BY tt.categoria) as subquery)")
     Categoria findTopCategoriaByUsuarioIdAndMesOrderByTotalGastoDesc(@Param("id") int id, @Param("mes") int mes);
 
-
+    @Query("SELECT SUM(p.valorPlanejado) FROM Planejamento p JOIN p.usuario u WHERE u.id = :id")
+    Double totalPlanejado(@Param("id") int id);
 
     @Query("""
     select new sptech.safemoney.dto.req.CategoriaValorPlanejadoDTO(c.id, c.nome, p.id, p.valorPlanejado) from Planejamento p join p.categoria c where p.usuario.id = ?1 
