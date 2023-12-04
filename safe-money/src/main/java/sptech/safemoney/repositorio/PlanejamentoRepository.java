@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import sptech.safemoney.dominio.Categoria;
 import sptech.safemoney.dominio.Planejamento;
 import sptech.safemoney.dominio.Transacao;
+import sptech.safemoney.dto.req.CategoriaValorPlanejadoDTO;
 import sptech.safemoney.dto.res.GastoCategoriaDTO;
 
 import java.time.LocalDate;
@@ -50,16 +51,17 @@ public interface PlanejamentoRepository extends JpaRepository<Planejamento, Inte
 
 
     @Query("""
-    select c from Planejamento p join p.categoria c where p.usuario.id = ?1 
+    select new sptech.safemoney.dto.req.CategoriaValorPlanejadoDTO(c.id, p.id, p.valorPlanejado) from Planejamento p join p.categoria c where p.usuario.id = ?1 
             """)
-    List<Categoria> getCategoriasPlanejadas(int id);
+    List<CategoriaValorPlanejadoDTO> getCategoriasPlanejadas(int id);
 
 
     @Query("""
-     select new sptech.safemoney.dto.res.GastoCategoriaDTO(c.nome, sum(t.valor)) from Transacao t join t.categoria c 
+     select new sptech.safemoney.dto.res.GastoCategoriaDTO(c.id, sum(t.valor)) from Transacao t join t.categoria c
      where t.categoria.id = ?1 and MONTH(t.data) = MONTH(?2)      
             """)
     GastoCategoriaDTO getGastoDTO(int id, LocalDate dataAtual);
+
 
 /*
     @Query("SELECT SUM(p.valor) " +

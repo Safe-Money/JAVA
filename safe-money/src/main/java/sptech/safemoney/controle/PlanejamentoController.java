@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import sptech.safemoney.dominio.Categoria;
 import sptech.safemoney.dominio.Planejamento;
 import sptech.safemoney.dominio.Transacao;
+import sptech.safemoney.dto.req.CategoriaValorPlanejadoDTO;
 import sptech.safemoney.dto.res.GastoCategoriaDTO;
 import sptech.safemoney.repositorio.PlanejamentoRepository;
 import sptech.safemoney.repositorio.TransacaoRepository;
@@ -141,11 +142,15 @@ public class PlanejamentoController {
 
     @GetMapping("/busca-gastos-categoria/{id}")
     public ResponseEntity<List<GastoCategoriaDTO>> categoriaMaisGasta(@PathVariable int id) {
-        List<Categoria> categorias = repository.getCategoriasPlanejadas(id);
+        List<CategoriaValorPlanejadoDTO> categorias = repository.getCategoriasPlanejadas(id);
 
         List<GastoCategoriaDTO> gastoCategorias = new ArrayList<>();
-        for (Categoria c : categorias) {
-            gastoCategorias.add(repository.getGastoDTO(c.getId(), LocalDate.now()));
+        for (CategoriaValorPlanejadoDTO c : categorias) {
+
+            GastoCategoriaDTO gasto = repository.getGastoDTO(c.getIdCategoria(), LocalDate.now());
+            gasto.setValorPlanejado(c.getValorPlanejado());
+            gasto.setIdPlanejamento(c.getIdPlanejamento());
+            gastoCategorias.add(gasto);
         }
 
 
