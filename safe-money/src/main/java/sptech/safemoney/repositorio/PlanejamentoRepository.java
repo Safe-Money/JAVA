@@ -57,10 +57,10 @@ public interface PlanejamentoRepository extends JpaRepository<Planejamento, Inte
 
 
     @Query("""
-     select new sptech.safemoney.dto.res.GastoCategoriaDTO(c.id, sum(t.valor)) from Transacao t join t.categoria c
+     select sum(t.valor) from Transacao t join t.categoria c
      where t.categoria.id = ?1 and MONTH(t.data) = MONTH(?2)      
             """)
-    GastoCategoriaDTO getGastoDTO(int id, LocalDate dataAtual);
+    Double getGastoDTO(int id, LocalDate dataAtual);
 
 
 /*

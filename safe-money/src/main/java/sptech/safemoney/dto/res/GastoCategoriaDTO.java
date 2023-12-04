@@ -6,9 +6,11 @@ public class GastoCategoriaDTO {
     private double totalGasto;
     private double valorPlanejado;
 
-    public GastoCategoriaDTO(int categoria, double totalGasto) {
+    public GastoCategoriaDTO(Integer idPlanejamento, int categoria, double totalGasto, double valorPlanejado) {
+        this.idPlanejamento = idPlanejamento;
         this.categoria = categoria;
         this.totalGasto = totalGasto;
+        this.valorPlanejado = valorPlanejado;
     }
 
     public Integer getIdPlanejamento() {
