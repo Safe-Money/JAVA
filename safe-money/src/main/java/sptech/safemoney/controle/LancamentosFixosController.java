@@ -27,4 +27,11 @@ public class LancamentosFixosController {
 
         return ResponseEntity.status(201).build();
     }
+
+    @GetMapping("/desfazer-lancamento-fixo")
+    public ResponseEntity<Void> desfazerLancamento() {
+        service.desfazerLanc();
+
+        return ResponseEntity.status(200).build();
+    }
 }

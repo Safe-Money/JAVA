@@ -22,14 +22,6 @@ public class Planejamento {
     @ManyToOne
     private Categoria categoria;
 
-    public Planejamento(Integer id, Double valorPlanejado, LocalDate data, UsuarioEntity usuario, Categoria categoria) {
-        this.id = id;
-        this.valorPlanejado = valorPlanejado;
-        this.data = data;
-        this.usuario = usuario;
-        this.categoria = categoria;
-    }
-
     public Integer getId() {
         return id;
     }

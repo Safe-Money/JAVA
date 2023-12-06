@@ -5,10 +5,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import sptech.safemoney.dominio.CartaoCredito;
 import sptech.safemoney.dominio.Transacao;
+import sptech.safemoney.dto.res.CartaoFaturaDTO;
 import sptech.safemoney.repositorio.CartaoCreditoRepository;
 import sptech.safemoney.servico.CartaoCreditoService;
 
@@ -47,22 +47,24 @@ public class CartaoCreditoController {
     }
 
     @GetMapping("/listar-cartoes/{id}")
-    public ResponseEntity<List<CartaoCredito>> getCartaoCredito(@PathVariable int id) {
-        List<CartaoCredito> cartoes = service.listarCartoes(id);
+    public ResponseEntity<List<CartaoFaturaDTO>> getCartaoCredito(@PathVariable int id) {
+        List<CartaoFaturaDTO> cartoes = service.listarCartoes(id);
 
-        return ResponseEntity.ok(cartoes);
+        return cartoes.size() == 0 ? ResponseEntity.status(204).build()
+                : ResponseEntity.status(200).body(cartoes);
     }
 
     @GetMapping("/listar-cartoes-conta/{idConta}")
-    public ResponseEntity<List<CartaoCredito>> getCartaoCreditoConta(@PathVariable int idConta) {
-        List<CartaoCredito> cartoes = service.listarCartoesConta(idConta);
+    public ResponseEntity<List<CartaoFaturaDTO>> getCartaoCreditoConta(@PathVariable int idConta) {
+        List<CartaoFaturaDTO> cartoes = service.listarCartoesConta(idConta);
 
-        return ResponseEntity.ok(cartoes);
+        return cartoes.size() == 0 ? ResponseEntity.status(204).build()
+                : ResponseEntity.status(200).body(cartoes);
     }
 
-    @GetMapping("/listar-fatura/{idConta}/{mes}")
-    public ResponseEntity<List<Transacao>> getFatura(@PathVariable int idConta, @PathVariable int mes) {
-        List<Transacao> cartoes = service.getTransacaoFatura(idConta, mes);
+    @GetMapping("/listar-fatura/{idCartao}/{mes}")
+    public ResponseEntity<List<Transacao>> getFatura(@PathVariable int idCartao, @PathVariable int mes) {
+        List<Transacao> cartoes = service.getTransacaoFatura(idCartao, mes);
 
         return ResponseEntity.ok(cartoes);
     }
@@ -78,12 +80,9 @@ public class CartaoCreditoController {
     @Operation(summary = "Deleta um novo cartão", method = "DELETE")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable int id) {
-        if (repository.existsById(id)) {
-            repository.deleteById(id);
-            return ResponseEntity.status(200).build();
-        }
+        service.deletarCartao(id);
 
-        return ResponseEntity.status(404).build();
+        return ResponseEntity.status(200).build();
     }
 
     @Operation(summary = "Atualiza os dados de um cartão", method = "PUT")

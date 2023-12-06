@@ -1,5 +1,6 @@
 package sptech.safemoney.repositorio;
 
+import org.springframework.cglib.core.Local;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -7,6 +8,7 @@ import sptech.safemoney.dominio.Categoria;
 import sptech.safemoney.dominio.LancamentosFixos;
 import sptech.safemoney.dominio.Transacao;
 import sptech.safemoney.dto.res.GastoPorDiaDTO;
+import sptech.safemoney.dto.res.GraficoPizzaDTO;
 import sptech.safemoney.utils.ListaObj;
 
 import java.time.LocalDate;
@@ -23,10 +25,14 @@ public interface TransacaoRepository extends JpaRepository<Transacao, Integer> {
     @Query("select t from Transacao t left join t.fatura f left join f.fkCartao cc left join cc.conta c where c.fkUsuario.id = ?1")
     List<Transacao> getUltimosGastosCredito(int idUsuario);
 
+    @Query("select t from Transacao t left join t.fatura f left join f.fkCartao cc left join cc.conta c " +
+            "where c.fkUsuario.id = ?1 and MONTH(f.dataReferencia) <= MONTH(?2) and YEAR(f.dataReferencia) <= YEAR(?2)")
+    List<Transacao> getUltimosGastosCreditoData(int idUsuario, LocalDate dataAtual);
+
     @Query("select t from Transacao t left join t.conta c where c.fkUsuario.id = ?1")
     List<Transacao> getUltimosGastosDebito(int idUsuario);
 
-    @Query("select t from Transacao t left join t.fatura f left join f.fkCartao cc left join cc.conta c where c.id = ?1 and MONTH(t.data) = 2")
+    @Query("select t from Transacao t left join t.fatura f left join f.fkCartao cc left join cc.conta c where c.id = ?1 and MONTH(t.data) = ?2")
     List<Transacao> getUltimosGastosCreditoConta(int idConta, int mes);
 
     @Query("select t from Transacao t left join t.conta c where c.id = ?1 and MONTH(t.data) = ?2")
@@ -40,6 +46,12 @@ public interface TransacaoRepository extends JpaRepository<Transacao, Integer> {
     select new sptech.safemoney.dto.res.GastoPorDiaDTO(t.data, sum(t.valor)) from Transacao t where t.conta.id = ?1 group by t.data        
             """)
     List<GastoPorDiaDTO> getGastoPorDia(int idConta);
+
+
+    @Query("""
+    select new sptech.safemoney.dto.res.GastoPorDiaDTO(t.data, sum(t.valor)) from Transacao t where t.conta.fkUsuario.id = ?1 group by t.data        
+            """)
+    List<GastoPorDiaDTO> getGastoPorDiaGeral(int idUser);
 
 
     @Query("""
@@ -64,14 +76,14 @@ public interface TransacaoRepository extends JpaRepository<Transacao, Integer> {
 
 
     @Query("""
-                select ca.nome, sum(t.valor) from Transacao t
+                select new sptech.safemoney.dto.res.GraficoPizzaDTO(ca.nome, sum(t.valor)) from Transacao t
                 JOIN t.tipo ti
                 JOIN t.categoria ca
                 JOIN t.conta c
                 JOIN c.fkUsuario u
                 where u.id =?1 and ti.nome = 'despesa' group by ca.nome
             """)
-    List<Object> graficoGastosPorcategoria(int id);
+    List<GraficoPizzaDTO> graficoGastosPorcategoria(int id);
 
     @Query("""
     SELECT ca.nome, SUM(t.valor) as total_valor 

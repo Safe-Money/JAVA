@@ -22,10 +22,6 @@ public class UsuarioEntity {
     private String senha;
     private LocalDate dtNascimento;
 
-
-    @OneToMany
-    private List<Objetivo> listaUsuarios = new ArrayList<>();
-
     public UsuarioEntity() {
     }
 

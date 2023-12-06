@@ -2,12 +2,8 @@ package sptech.safemoney.servico;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import sptech.safemoney.dominio.CartaoCredito;
-import sptech.safemoney.dominio.Fatura;
-import sptech.safemoney.dto.req.CartaoFaturaDTO;
 import sptech.safemoney.dto.res.NotificacaoDTO;
 import sptech.safemoney.repositorio.CartaoCreditoRepository;
 import sptech.safemoney.repositorio.FaturaRepository;
@@ -15,7 +11,6 @@ import sptech.safemoney.repositorio.PlanejamentoRepository;
 import sptech.safemoney.repositorio.TransacaoRepository;
 import sptech.safemoney.utils.FilaObj;
 
-import java.sql.Array;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;

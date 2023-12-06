@@ -9,9 +9,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import sptech.safemoney.dominio.UsuarioEntity;
 import sptech.safemoney.dto.UsuarioCadastroDTO;
+import sptech.safemoney.dto.res.UsuarioUpdateDTO;
 import sptech.safemoney.repositorio.UsuarioRepository;
 
 import java.util.List;
@@ -76,12 +78,26 @@ public class UsuarioController {
 
     @Operation(summary = "Atualiza os dados de um usuário", method = "PUT")
     @PutMapping("/{id}")
-    public ResponseEntity<UsuarioEntity> put(@RequestBody @Valid UsuarioEntity usuarioAtualizado, @PathVariable int id) {
+    public ResponseEntity<UsuarioEntity> put(@RequestBody UsuarioUpdateDTO usuarioAtualizado, @PathVariable int id) {
         if (repository.existsById(id)) {
-            usuarioAtualizado.setId(id);
-            repository.save(usuarioAtualizado);
-            return ResponseEntity.status(200).body(usuarioAtualizado);
+            UsuarioEntity usuario = repository.findById(id).get();
+            if (usuarioAtualizado.getSenha() == null) {
+                usuario.setNome(usuarioAtualizado.getNome());
+                usuario.setEmail(usuarioAtualizado.getEmail());
+                usuario.setId(id);
+                repository.save(usuario);
+                return ResponseEntity.status(200).build();
+
+            } else {
+                usuario.setNome(usuarioAtualizado.getNome());
+                usuario.setEmail(usuarioAtualizado.getEmail());
+                usuario.setSenha(new BCryptPasswordEncoder().encode(usuarioAtualizado.getSenha()));
+                usuario.setId(id);
+                repository.save(usuario);
+                return ResponseEntity.status(200).build();
+            }
         }
+
         return ResponseEntity.status(404).build();
     }
 

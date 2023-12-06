@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sptech.safemoney.dominio.Transacao;
+import sptech.safemoney.dto.req.DespesaCreditoDTO;
+import sptech.safemoney.dto.req.DespesaDTO;
 import sptech.safemoney.dto.res.GastoPorDiaDTO;
 import sptech.safemoney.repositorio.TransacaoRepository;
 import sptech.safemoney.servico.TransacaoService;
@@ -66,28 +68,20 @@ public class TransacaoController {
         return ResponseEntity.ok(transacoes);
     }
 
-    @Operation(summary = "Lista as transacoes agrupadas por dia", method = "GET")
-    @GetMapping("/listar-gasto-dia/{idConta}")
-    public ResponseEntity<List<GastoPorDiaDTO>> getGastosPorDia(@PathVariable int idConta) {
-        List<GastoPorDiaDTO> gastos = service.getGastoPorDia(idConta);
-
-        return ResponseEntity.ok(gastos);
-    }
-
     @Operation(summary = "Cadastra uma despesa", method = "POST")
     @PostMapping("/despesa")
-    public ResponseEntity<Transacao> postDespesa(@RequestBody @Valid Transacao novaTransacao) {
-        service.despesa(novaTransacao);
+    public ResponseEntity<DespesaDTO> postDespesa(@RequestBody @Valid DespesaDTO novaDespesa) {
+        service.despesa(novaDespesa);
 
-        return ResponseEntity.status(201).body(novaTransacao);
+        return ResponseEntity.status(201).body(novaDespesa);
     }
 
     @Operation(summary = "Cadastra uma despesa", method = "POST")
     @PostMapping("/despesa-credito")
-    public ResponseEntity<Transacao> postDespesaCredito(@RequestBody @Valid Transacao novaTransacao) {
-        service.despesaCredito(novaTransacao);
+    public ResponseEntity<DespesaCreditoDTO> postDespesaCredito(@RequestBody @Valid DespesaCreditoDTO novaDespesa) {
+        service.despesaCredito(novaDespesa);
 
-        return ResponseEntity.status(201).body(novaTransacao);
+        return ResponseEntity.status(201).body(novaDespesa);
     }
 
     @Operation(summary = "Cadastra uma despesa", method = "POST")
