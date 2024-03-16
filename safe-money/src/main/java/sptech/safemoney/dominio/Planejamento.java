@@ -15,7 +15,6 @@ public class Planejamento {
     private Integer id;
     @PositiveOrZero
     private Double valorPlanejado;
-    @Future
     private LocalDate data;
     @ManyToOne
     private UsuarioEntity usuario;

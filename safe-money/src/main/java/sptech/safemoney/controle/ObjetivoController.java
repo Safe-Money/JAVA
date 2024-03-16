@@ -126,6 +126,16 @@ public class ObjetivoController {
         return ResponseEntity.status(404).build();
     }
 
+    @Operation(summary = "Adiciona o valor investido pelo usuário", method = "PUT")
+    @PutMapping("/adicionar/{idObjetivo}/{novoValorInvestido}/{idUsuario}")
+    public ResponseEntity<Void> adicionarValor(@PathVariable int idObjetivo, @PathVariable double novoValorInvestido, @PathVariable int idUsuario) {
+        if (repository.existsById(idObjetivo)) {
+            repository.adicionarValorInvestido(idObjetivo, novoValorInvestido, idUsuario);
+            return ResponseEntity.status(200).build();
+        }
+        return ResponseEntity.status(404).build();
+    }
+
     @GetMapping("/iniciados/{id}")
     public ResponseEntity<Integer> objetivosIniciados(@PathVariable int id){
          return ResponseEntity.status(200).body(repository.iniciados(id));
