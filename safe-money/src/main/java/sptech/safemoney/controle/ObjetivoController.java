@@ -12,6 +12,7 @@ import sptech.safemoney.dominio.Objetivo;
 import sptech.safemoney.repositorio.ContaRepository;
 import sptech.safemoney.repositorio.ObjetivoRepository;
 import sptech.safemoney.servico.ContaService;
+import sptech.safemoney.servico.ObjetivoService;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +23,11 @@ import java.util.Optional;
 public class ObjetivoController {
     @Autowired
     ObjetivoRepository repository;
+
+    @Autowired
+    ObjetivoService service;
+
+
     @Operation(summary = "Busca e Lista todos as contas salvas", method = "GET")
     @GetMapping("/")
     public ResponseEntity<List<Objetivo>> getObjetivos() {
@@ -79,12 +85,13 @@ public class ObjetivoController {
 
     @Operation(summary = "Cadastra uma conta", method = "POST")
     @PostMapping("/")
-    public ResponseEntity<Objetivo> post(@RequestBody @Valid Objetivo novaConta) {
-        if (repository.existsById(novaConta.getId())) {
+    public ResponseEntity<Objetivo> post(@RequestBody @Valid Objetivo novoObjetivo) {
+        if (repository.existsById(novoObjetivo.getId())) {
             return ResponseEntity.status(409).build();
         }
-        repository.save(novaConta);
-        return ResponseEntity.status(201).body(novaConta);
+        service.verificaSave(novoObjetivo);
+        repository.save(novoObjetivo);
+        return ResponseEntity.status(201).body(novoObjetivo);
     }
   
     @Operation(summary = "Deleta uma conta", method = "DELETE")
