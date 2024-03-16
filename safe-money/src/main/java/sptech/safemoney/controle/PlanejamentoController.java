@@ -140,15 +140,9 @@ public class PlanejamentoController {
     @GetMapping("/busca-gastos-categoria/{id}")
     public ResponseEntity<List<GastoCategoriaDTO>> categoriaMaisGasta(@PathVariable int id) {
         List<CategoriaValorPlanejadoDTO> categorias = repository.getCategoriasPlanejadas(id);
-        System.out.println("-------------AQUI");
-        System.out.println(categorias.get(0).getIdCategoria());
-        System.out.println(categorias.get(1).getIdCategoria());
-        System.out.println("-------------AQUI2222");
 
         List<GastoCategoriaDTO> gastoCategorias = new ArrayList<>();
         for (CategoriaValorPlanejadoDTO c : categorias) {
-
-
 
                 Double gastoTotal = repository.getGastoDTO(c.getIdCategoria(), LocalDate.now());
                 if (gastoTotal == null) {

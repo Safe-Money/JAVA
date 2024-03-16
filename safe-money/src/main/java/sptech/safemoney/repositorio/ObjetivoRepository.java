@@ -1,4 +1,5 @@
 package sptech.safemoney.repositorio;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -40,6 +41,16 @@ public interface ObjetivoRepository extends JpaRepository<Objetivo, Integer> {
     AND o.fkUsuario.id = :idDoUsuario
     """)
     void atualizarValorInvestido(@Param("idDoObjetivo") int idDoObjetivo, @Param("novoValorInvestido") double novoValorInvestido, @Param("idDoUsuario") int idDoUsuario);
+
+    @Modifying
+    @Transactional
+    @Query("""
+    UPDATE Objetivo o
+    SET o.valorInvestido = o.valorInvestido + ?2
+    WHERE o.id = ?1
+    AND o.fkUsuario.id = ?3
+    """)
+    void adicionarValorInvestido(int idDoObjetivo, double novoValorInvestido, int idDoUsuario);
 
     @Query("""
     SELECT o

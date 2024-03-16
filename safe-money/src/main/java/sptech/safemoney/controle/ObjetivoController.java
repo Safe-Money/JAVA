@@ -70,7 +70,6 @@ public class ObjetivoController {
     public ResponseEntity<Objetivo> objetivoMaisProximo(@PathVariable int id) {
         Objetivo objetivo = repository.objetivoProximos(id);
 
-
         if (objetivo != null) {
             return ResponseEntity.status(200).body(objetivo);
         } else {
@@ -115,6 +114,16 @@ public class ObjetivoController {
     public ResponseEntity<Void> atualizarValor(@PathVariable int idObjetivo, @PathVariable double novoValorInvestido, @PathVariable int idUsuario) {
         if (repository.existsById(idObjetivo)) {
             repository.atualizarValorInvestido(idObjetivo, novoValorInvestido, idUsuario);
+            return ResponseEntity.status(200).build();
+        }
+        return ResponseEntity.status(404).build();
+    }
+
+    @Operation(summary = "Adiciona o valor investido pelo usuário", method = "PUT")
+    @PutMapping("/adicionar/{idObjetivo}/{novoValorInvestido}/{idUsuario}")
+    public ResponseEntity<Void> adicionarValor(@PathVariable int idObjetivo, @PathVariable double novoValorInvestido, @PathVariable int idUsuario) {
+        if (repository.existsById(idObjetivo)) {
+            repository.adicionarValorInvestido(idObjetivo, novoValorInvestido, idUsuario);
             return ResponseEntity.status(200).build();
         }
         return ResponseEntity.status(404).build();
