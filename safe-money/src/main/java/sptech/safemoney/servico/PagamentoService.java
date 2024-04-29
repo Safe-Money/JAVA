@@ -57,7 +57,7 @@ public class PagamentoService {
 
         PaymentCreateRequest paymentCreateRequest =
                 PaymentCreateRequest.builder()
-                        .transactionAmount(new BigDecimal("4.99"))
+                        .transactionAmount(new BigDecimal("0.01"))
                         .description("Premium - SafeMoney")
                         .paymentMethodId("pix")
                         .dateOfExpiration(expirationTime)
@@ -84,8 +84,13 @@ public class PagamentoService {
         return comprovantePixDTO;
     }
 
-    public boolean ConfirmarPagamento(int idUsuario) {
-        usuarioRepository.alterarPlano(idUsuario);
+    public boolean alterarPlano(int idUsuario) {
+        int linhasAlteradas = usuarioRepository.alterarPlano(idUsuario);
+        if (linhasAlteradas == 1) {
+            return true;
+        }
         return false;
     }
+
+
 }

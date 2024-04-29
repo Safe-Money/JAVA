@@ -27,6 +27,8 @@ public class CartaoCredito {
     @ManyToOne
     private ContaEntity conta;
 
+    private String quatroDig;
+
 
     public int getId() {
         return id;
@@ -82,5 +84,13 @@ public class CartaoCredito {
 
     public void setConta(ContaEntity conta) {
         this.conta = conta;
+    }
+
+    public String getQuatroDig() {
+        return quatroDig;
+    }
+
+    public void setQuatroDig(String quatroDig) {
+        this.quatroDig = quatroDig;
     }
 }

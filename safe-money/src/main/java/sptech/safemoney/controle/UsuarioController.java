@@ -60,6 +60,7 @@ public class UsuarioController {
         }
 
         UsuarioEntity user = novoUsuario.convert();
+        user.setPlano(0);
         repository.save(user);
 
         return ResponseEntity.status(201).body(user);

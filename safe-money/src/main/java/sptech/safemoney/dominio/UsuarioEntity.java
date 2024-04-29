@@ -23,6 +23,8 @@ public class UsuarioEntity {
     private LocalDate dtNascimento;
     private int plano;
 
+    private String CPF;
+
     public UsuarioEntity() {
     }
 
@@ -79,5 +81,13 @@ public class UsuarioEntity {
 
     public void setPlano(int plano) {
         this.plano = plano;
+    }
+
+    public String getCPF() {
+        return CPF;
+    }
+
+    public void setCPF(String CPF) {
+        this.CPF = CPF;
     }
 }

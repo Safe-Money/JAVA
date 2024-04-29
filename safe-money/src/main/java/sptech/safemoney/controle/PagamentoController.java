@@ -28,4 +28,14 @@ public class PagamentoController {
         return ResponseEntity.status(200).body(comprovantePixDTO);
     }
 
+    @PostMapping("/alterar-plano/{id}")
+    public ResponseEntity<Void> alterarPlano(@PathVariable int id) {
+        boolean planoAlterado = service.alterarPlano(id);
+
+        return planoAlterado
+                ? ResponseEntity.status(200).build()
+                : ResponseEntity.status(404).build();
+    }
+
+
 }
