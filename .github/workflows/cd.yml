@@ -14,11 +14,11 @@ jobs:
               run: docker pull onathandavid/safemoney:java
 
             - name: Stop Docker container
-              run: docker stop ci-example || true
+              run: docker stop java-safemoney || true
 
             - name: Remove Docker container
-              run: docker rm ci-example || true
+              run: docker rm java-safemoney || true
 
             - name: Run Docker container
-              run: docker run --name ci-example -d -p 8080:8080 onathandavid/safemoney:java
+              run: docker run --name java-safemoney -d -p 8080:8080 onathandavid/safemoney:java
               
