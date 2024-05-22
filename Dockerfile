@@ -3,7 +3,7 @@ LABEL authors="Safemoney"
 
 WORKDIR /build
 
-COPY . .
+COPY safe-money/. .
 
 RUN mvn clean package -DskipTests -Dcheckstyle.skip=true
 
