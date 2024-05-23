@@ -1,0 +1,24 @@
+name: Safemoney CD
+
+on:
+    pull_request:
+        branches:
+          - main
+        types: [opened, reopened]
+
+jobs:
+    deploy:
+        runs-on: self-hosted
+        steps:
+            - name: Pull Docker image
+              run: docker pull onathandavid/safemoney:java
+
+            - name: Stop Docker container
+              run: docker stop java-safemoney || true
+
+            - name: Remove Docker container
+              run: docker rm java-safemoney || true
+
+            - name: Run Docker container
+              run: docker run --name java-safemoney -d -p 8080:8080 onathandavid/safemoney:java
+              

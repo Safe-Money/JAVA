@@ -60,6 +60,7 @@ public class AutenticacaoController {
         usuarioTokenDto.setEmail(usuarioAutenticado.getEmail());
         usuarioTokenDto.setNome(usuarioAutenticado.getNome());
         usuarioTokenDto.setToken(token);
+        usuarioTokenDto.setPlano(usuarioAutenticado.getPlano());
 
         return ResponseEntity.ok(usuarioTokenDto);
     }

@@ -21,6 +21,9 @@ public class UsuarioEntity {
     @NotBlank
     private String senha;
     private LocalDate dtNascimento;
+    private int plano;
+
+    private String CPF;
 
     public UsuarioEntity() {
     }
@@ -70,5 +73,21 @@ public class UsuarioEntity {
 
     public void setDtNascimento(LocalDate dtNascimento) {
         this.dtNascimento = dtNascimento;
+    }
+
+    public int getPlano() {
+        return plano;
+    }
+
+    public void setPlano(int plano) {
+        this.plano = plano;
+    }
+
+    public String getCPF() {
+        return CPF;
+    }
+
+    public void setCPF(String CPF) {
+        this.CPF = CPF;
     }
 }

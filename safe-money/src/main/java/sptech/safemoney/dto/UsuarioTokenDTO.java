@@ -5,6 +5,7 @@ public class UsuarioTokenDTO {
     private String nome;
     private String email;
     private String token;
+    private int plano;
 
     public int getId() {
         return id;
@@ -36,5 +37,13 @@ public class UsuarioTokenDTO {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public int getPlano() {
+        return plano;
+    }
+
+    public void setPlano(int plano) {
+        this.plano = plano;
     }
 }
