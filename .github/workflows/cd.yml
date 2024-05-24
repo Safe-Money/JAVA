@@ -1,24 +1,28 @@
 name: Safemoney CD
 
 on:
-    pull_request:
-        branches:
-          - main
-        types: [opened, reopened]
+  push:
+    branches:
+      - main
 
 jobs:
-    deploy:
-        runs-on: self-hosted
-        steps:
-            - name: Pull Docker image
-              run: docker pull onathandavid/safemoney:java
+  deploy:
+    runs-on: self-hosted
+    strategy:
+      matrix:
+        runner: [runner1, runner2]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-            - name: Stop Docker container
-              run: docker stop java-safemoney || true
+      - name: Pull Docker image
+        run: docker pull onathandavid/safemoney:java
 
-            - name: Remove Docker container
-              run: docker rm java-safemoney || true
+      - name: Stop Docker container
+        run: docker stop java-safemoney || true
 
-            - name: Run Docker container
-              run: docker run --name java-safemoney -d -p 8080:8080 onathandavid/safemoney:java
-              
+      - name: Remove Docker container
+        run: docker rm java-safemoney || true
+
+      - name: Run Docker container
+        run: docker run --name java-safemoney -d -p 8080:8080 onathandavid/safemoney:java
