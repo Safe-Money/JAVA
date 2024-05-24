@@ -1,5 +1,5 @@
 FROM maven:3-openjdk-17 as builder
-LABEL authors="Safemoney"
+LABEL authors="Safemoney 1.0"
 
 WORKDIR /build
 
