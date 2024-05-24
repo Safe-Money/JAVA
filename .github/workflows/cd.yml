@@ -10,7 +10,7 @@ jobs:
     runs-on: self-hosted
     strategy:
       matrix:
-        runner: [runner1, runner2]
+        runner: [ip-10-0-0-213, safemoney-cd]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
