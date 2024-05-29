@@ -63,6 +63,11 @@ public interface PlanejamentoRepository extends JpaRepository<Planejamento, Inte
             """)
     Double getGastoDTO(int id, LocalDate dataAtual);
 
+    @Query("""
+            select p from Planejamento p where p.id = :id
+            """)
+    Planejamento pegarPorId(@Param("id") int id);
+
 
 /*
     @Query("SELECT SUM(p.valor) " +

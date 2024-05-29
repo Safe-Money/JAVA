@@ -40,6 +40,17 @@ public class PlanejamentoController {
                 : ResponseEntity.status(200).body(listaPlanejamento);
     }
 
+    @Operation(summary = "busca planejamento por id especifico", method = "GET")
+    @GetMapping("/editar/{idPlanejamento}")
+    public ResponseEntity<Planejamento> getPorId(@PathVariable int idPlanejamento) {
+        if(repository.existsById(idPlanejamento)){
+            Planejamento p = repository.pegarPorId(idPlanejamento);
+            return ResponseEntity.status(200).body(p);
+        }
+
+        return ResponseEntity.status(404).build();
+    }
+
     @Operation(summary = "Cadastra um planejamento", method = "POST")
     @PostMapping("/")
     public ResponseEntity<Planejamento> post(@RequestBody @Valid Planejamento novoPlanejamento) {
