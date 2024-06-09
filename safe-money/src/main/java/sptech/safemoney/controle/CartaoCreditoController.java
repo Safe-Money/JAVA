@@ -69,6 +69,14 @@ public class CartaoCreditoController {
         return ResponseEntity.ok(cartoes);
     }
 
+    @Operation(summary = "Lista todas as transações daquele cartao, independente de mês", method = "GET")
+    @GetMapping("/listar-fatura-cartao/{idCartao}")
+    public ResponseEntity<List<Transacao>> getGastoCartao(@PathVariable int idCartao) {
+        List<Transacao> cartoes = service.listarTransacaoTotal(idCartao);
+
+        return ResponseEntity.ok(cartoes);
+    }
+
     @Operation(summary = "Cadastra um novo cartão", method = "POST")
     @PostMapping("/")
     public ResponseEntity<CartaoCredito> post(@RequestBody @Valid CartaoCredito novoCartao) {
