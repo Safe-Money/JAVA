@@ -53,4 +53,9 @@ public interface CartaoCreditoRepository extends JpaRepository<CartaoCredito, In
     delete from Fatura f where f.fkCartao.id = ?1
             """)
     int deletarFaturasCartao(int idCartao);
+
+    @Query("""
+    select t from Transacao t join t.fatura f where f.fkCartao.id = 14        
+            """)
+    List<Transacao> listarTransacaoTotal(int idCartao);
 }

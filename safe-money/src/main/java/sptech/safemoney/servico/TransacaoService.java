@@ -3,6 +3,7 @@ package sptech.safemoney.servico;
 import jakarta.annotation.PostConstruct;
 import org.hibernate.validator.internal.constraintvalidators.hv.NormalizedValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -66,6 +67,7 @@ public class TransacaoService {
         double limiteAtual = 0;
 
         Transacao t = null;
+
 
         for (int i = 1; i <= novaDespesa.getParcelas(); i++) {
             novaDespesa.setFatura(faturas.get(i - 1));

@@ -161,4 +161,12 @@ public class CartaoCreditoService {
         int faturasExcluidas = repositoryCartao.deletarFaturasCartao(idCartao);
         repositoryCartao.deleteById(idCartao);
     }
+
+    public List<Transacao> listarTransacaoTotal(int idCartao) {
+        if (!repositoryCartao.existsById(idCartao)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cartão não encontrado");
+        }
+
+        return repositoryCartao.listarTransacaoTotal(idCartao);
+    }
 }
