@@ -17,7 +17,6 @@ public class Transacao {
     private int id;
     @NotBlank
     private String nome;
-    @PastOrPresent
     private LocalDate data;
     @PositiveOrZero
     private Double valor;
